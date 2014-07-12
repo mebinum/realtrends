@@ -12,22 +12,24 @@ jQuery(document).ready(function($) {
 	// FACET VIEW
 	//----------------------------------------------------------------------------------------------------------------
 
-	  var json = (function() {
-	        var json = null;
-	        $.ajax({
-	            'async': false,
-	            'global': false,
-	            'url': "indexer/postcodes.json",
-	            'dataType': "json",
-	            'success': function (data) {
-	                json = data;
-	            }
-	        });
-	        return json;
-	    })();
+	var json = (function() {
+		var json = null;
+		$.ajax({
+		    'async': false,
+		    'global': false,
+		    'url': "indexer/postcodes.json",
+		    'dataType': "json",
+		    'success': function (data) {
+		        json = data;
+		    }
+		});
+		return json;
+	})();
 
-	  $('.facet-view-simple').facetview({
-	    search_url: serverUrl,
+
+
+	$('.facet-view-simple').facetview({
+		search_url: serverUrl,
 	    search_index: searchIndex,
 	    initialsearch: true,
 	    facets: [
@@ -60,17 +62,20 @@ jQuery(document).ready(function($) {
 	              var lat = geocode[0];
 
 	              addressPoints.push(new Array(lon,lat));
-	            }	            
+	            }
 	        });
 
-	        console.log(addressPoints);
+	        //console.log(addressPoints);
 
-	        var heat = L.heatLayer(addressPoints, {radius: 25}).addTo(map);
+	       // var heat = L.heatLayer(addressPoints, {radius: 25}).addTo(map);
 
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Site Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
-	  });
+	});
+
+	//hide buttongruop
+	$('.facetview_search_options_container .btn-group:eq(0)').css('display','none');
 
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -164,7 +169,7 @@ jQuery(document).ready(function($) {
 
 	//set map height
 	var $map = $('#map');
-	$map.css('height',  $(window).height() - $('.navbar').height());
+	$map.css('height',  $(window).height() - 40);
 
 	//init map
 	var map = L.map('map').setView([-37.87, 175.475], 2);
