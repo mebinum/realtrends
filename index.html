@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Real Trends</title>
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/facetview/css/facetview.css">
+  <link rel="stylesheet" href="vendor/facetview/css/style.css">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
+  <script type="text/javascript" src="vendor/jquery/1.7.1/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
+  <script type="text/javascript" src="vendor/linkify/1.0/jquery.linkify-1.0-min.js"></script>  
+  <link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
+  <script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript" src="vendor/facetview/jquery.facetview.js"></script>
+
+  <!-- Leaf Scripts -->
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+  <script src="vendor/leaflet/leaflet-heat.js"></script>
+  <script src="data/linz-demo.js"></script>
+  
+  <style>
+      #map { 
+        width: 100%; 
+        height: 600px; 
+      }
+
+      body { 
+        font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; 
+      }
+      .ghbtns { 
+        position: relative; 
+        top: 4px; 
+        margin-left: 5px; 
+      }
+      a { color: #0077ff; }
+  </style>
+
+  <style type="text/css">
+  .facet-view-simple{
+      width:100%;
+      height:600px;
+      margin:20px auto 0 auto;
+  }
+
+  .facetview_freetext {
+    width: 20% !important;
+  }
+  </style>
+
+    <!-- Initialisation of search engine -->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $('.facet-view-simple').facetview({
+          search_url: 'http://localhost:9200?',
+          search_index: 'elasticsearch',
+          facets: [
+          ],
+          paging: {
+            size: 10
+          }
+        });
+      });
+  </script>
+    
+</head>
+<body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Real Trends</a>
+          <ul class="nav">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content --> 
+    <div class="container-fluid"> 
+      <div class="content">
+        <div class="page-header">
+        <h2>Demo</h2>
+        <div class="row-fluid">
+          <div class="span3">
+            <div class="facet-view-simple"></div> 
+          </div>
+          <div class="span9">
+            <div id="map"></div>
+          </div>
+      </div>
+
+    <footer>
+    <p>&copy; RealTrends 2014. Mike, Christopher, Jordan, Richard, Alan, Leon</p>
+    </footer>
+</div>
+
+
+
+<!-- Le Scripts -->
+<script>
+    var map = L.map('map').setView([-37.87, 175.475], 8);
+
+    var tiles = L.tileLayer('http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://www.mapbox.com/about/maps/">Terms and Feedback</a>',
+        id: 'examples.map-20v6611k'
+    }).addTo(map);
+
+    var heat = L.heatLayer(addressPoints).addTo(map);
+</script>
+
+</body>
+</html>
