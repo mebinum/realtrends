@@ -609,7 +609,7 @@ search box - the end user will not know they are happening.
                 var filters = options.facets;
                 var thefilters = '';
                 for ( var idx = 0; idx < filters.length; idx++ ) {
-                    var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed table-striped" style="display:none;"> \
+                    var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed table-striped"> \
                         <tr><td><a class="facetview_filtershow" title="filter by {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
                         style="color:#333; font-weight:bold;" href=""><i class="icon-plus"></i> {{FILTER_DISPLAY}} \
                         </a> \
@@ -918,7 +918,7 @@ search box - the end user will not know they are happening.
                     </ul> \
                 </div>';
             };
-            $('.facetview_metadata', obj).first().html("Not found...");
+            $('.facetview_metadata', obj).first().html("No results returned.");
             if (data.found) {
                 var from = options.paging.from + 1;
                 var size = options.paging.size;
@@ -1287,8 +1287,8 @@ search box - the end user will not know they are happening.
         // the facet view object to be appended to the page
         var thefacetview = '<div id="facetview"><div class="row-fluid">';
         if ( options.facets.length > 0 ) {
-            thefacetview += '<div class="span3"><div id="facetview_filters" style="padding-top:45px;"></div></div>';
-            thefacetview += '<div class="span9" id="facetview_rightcol">';
+            thefacetview += '<div class="span6"><div id="facetview_filters"></div></div>';
+            thefacetview += '<div class="span6" id="facetview_rightcol">';
         } else {
             thefacetview += '<div class="span12" id="facetview_rightcol">';
         }
