@@ -435,7 +435,8 @@ search box - the end user will not know they are happening.
             "pushstate": true,
             "linkify": true,
             "default_operator": "OR",
-            "default_freetext_fuzzify": false
+            "default_freetext_fuzzify": false,
+            "on_results_returned" : false
         };
 
 
@@ -936,13 +937,18 @@ search box - the end user will not know they are happening.
             }
 
             // put the filtered results on the page
-            $('#facetview_results',obj).html("");
+            $('#facetview_results',obj).html(options.searchwrap_start);
             var infofiltervals = new Array();
+
             $.each(data.records, function(index, value) {
-                // write them out to the results div
-                 $('#facetview_results', obj).append( buildrecord(index) );
-                 options.linkify ? $('#facetview_results tr:last-child', obj).linkify() : false;
+                console.log(value);
+                $('#facetview_results', obj).append("<tr><td></td><td>"+value.Site_street+"</td><td>"+value.Site_suburb+"</td><td>"+value.site_pcode+"</td><td>"+value.geo_point+"</td></tr>");
+
+                //$('#facetview_results', obj).append( buildrecord(index) );
+                options.linkify ? $('#facetview_results tr:last-child', obj).linkify() : false;
             });
+
+
             if ( options.result_box_colours.length > 0 ) {
                 jQuery('.result_box', obj).each(function () {
                     var colour = options.result_box_colours[Math.floor(Math.random()*options.result_box_colours.length)] ;
@@ -953,9 +959,13 @@ search box - the end user will not know they are happening.
             $('.facetview_viewrecord', obj).bind('click',viewrecord);
             jQuery('.notify_loading').hide();
             // if a post search callback is provided, run it
+
             if (typeof options.post_search_callback == 'function') {
                 options.post_search_callback.call(this);
             }
+            if (typeof options.on_results_returned == 'function') { 
+                options.on_results_returned(sdata); 
+            } 
         };
 
         // ===============================================
@@ -1287,8 +1297,8 @@ search box - the end user will not know they are happening.
         // the facet view object to be appended to the page
         var thefacetview = '<div id="facetview"><div class="row-fluid">';
         if ( options.facets.length > 0 ) {
-            thefacetview += '<div class="span6"><div id="facetview_filters"></div></div>';
-            thefacetview += '<div class="span6" id="facetview_rightcol">';
+            thefacetview += '<div class="span3"><div id="facetview_filters"></div></div>';
+            thefacetview += '<div class="span9" id="facetview_rightcol">';
         } else {
             thefacetview += '<div class="span12" id="facetview_rightcol">';
         }

@@ -18,6 +18,47 @@ jQuery(document).ready(function($) {
     },
     on_results_returned: function(sdata) {
       console.log(sdata);
-    }
+    },
+    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Site Geocode</th></tr></thead><tbody>',
+    searchwrap_end: '</tbody></table>',
+    result_display: [
+                [
+                    {
+                        "pre": "<td>",
+                        "field": "event_date",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "state",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "area",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "lga_name",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "offense_category",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "subcategory",
+                        "post": "</td>"
+                    },
+                    {
+                        "pre": "<td>",
+                        "field": "t_count",
+                        "post": "</td>"
+                    }
+                ]
+            ],
   });
 });
