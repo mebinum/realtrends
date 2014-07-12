@@ -10,21 +10,54 @@ a {
 	color: #0077ff; 
 }
 
-.facet-view-simple{
-	display: none;
-	width:800px;
-	height:600px;
-	margin:20px auto 0 auto;
-}
+
+
+
 
 
 .container{
-	width: 100%;
+	width: auto;
 }
 .content{
 	padding: 0;
 	margin: 0;
 }
+
+
+
+
+
+/* ============================================================
+===============================================================
+  TOP BAR
+===============================================================
+=============================================================*/
+div.navbar .container{
+	padding-left: 10px;
+}
+.navbar .rightContainer{
+	float: right;
+	margin-right: 10px;
+}
+#search{
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+/* FACET VIEW ------------------------------------------------*/
+.facet-view-simple{
+	position: absolute;
+	right: 0px;
+	width:800px;
+	height:600px;
+	margin:20px auto 0 auto;
+}
+
+/* ============================================================
+===============================================================
+  TIMELINE
+===============================================================
+=============================================================*/
 
 #timelineWrap{
 	position: absolute;
@@ -49,14 +82,6 @@ a {
 	font-size: 24px;
 	color: #FFF;
 }
-#map { 
-	width: 100%;
-	height: 500px;
-}
-div.navbar .container{
-	padding-left: 10px;
-}
-
 
 .noUi-handle{
 	box-shadow: none;
@@ -89,11 +114,30 @@ div.navbar .container{
 	padding-bottom: 4px;
 	border-radius: 5px;
 
-	-webkit-transition: opacity 300ms ease-out;
-    -moz-transition: opacity 300ms ease-out;
-    -o-transition: opacity 300ms ease-out;
-    transition: opacity 300ms ease-out;
+	-webkit-transition: opacity 500ms ease-out;
+    -moz-transition: opacity 500ms ease-out;
+    -o-transition: opacity 500ms ease-out;
+    transition: opacity 500ms ease-out;
+
 }
 .noUi-active .tooltip{
 	opacity: 1;
+
+	-webkit-transition: opacity 200ms ease-out;
+    -moz-transition: opacity 200ms ease-out;
+    -o-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
 }
+
+/* ============================================================
+===============================================================
+  MAP
+===============================================================
+=============================================================*/
+#map {
+	width: 100%;
+	height: 500px;
+}
+
+
+
