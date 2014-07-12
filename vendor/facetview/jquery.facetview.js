@@ -435,7 +435,8 @@ search box - the end user will not know they are happening.
             "pushstate": true,
             "linkify": true,
             "default_operator": "OR",
-            "default_freetext_fuzzify": false
+            "default_freetext_fuzzify": false,
+            "on_results_returned" : false
         };
 
 
@@ -936,13 +937,28 @@ search box - the end user will not know they are happening.
             }
 
             // put the filtered results on the page
-            $('#facetview_results',obj).html("");
+            $('#facetview_results',obj).html(options.searchwrap_start);
             var infofiltervals = new Array();
+            var addressPoints = {};
+
+            /* *************************************************************************
+
+
+            !!!!!!!!TABLE INFORMATION IS RENDERED HERE!!!!!!!
+
+
+            ****************************************************************************/
+
+
             $.each(data.records, function(index, value) {
-                // write them out to the results div
-                 $('#facetview_results', obj).append( buildrecord(index) );
-                 options.linkify ? $('#facetview_results tr:last-child', obj).linkify() : false;
+                $('#facetview_results', obj).append("<tr><td></td><td>"+value.Site_street+"</td><td>"+value.Site_suburb+"</td><td>"+value.site_pcode+"</td><td>"+value.Permit_app_date+"</td></tr>");
+                
+
+                //$('#facetview_results', obj).append( buildrecord(index) );
+                options.linkify ? $('#facetview_results tr:last-child', obj).linkify() : false;
             });
+
+
             if ( options.result_box_colours.length > 0 ) {
                 jQuery('.result_box', obj).each(function () {
                     var colour = options.result_box_colours[Math.floor(Math.random()*options.result_box_colours.length)] ;
@@ -953,9 +969,13 @@ search box - the end user will not know they are happening.
             $('.facetview_viewrecord', obj).bind('click',viewrecord);
             jQuery('.notify_loading').hide();
             // if a post search callback is provided, run it
+
             if (typeof options.post_search_callback == 'function') {
                 options.post_search_callback.call(this);
             }
+            if (typeof options.on_results_returned == 'function') { 
+                options.on_results_returned(sdata); 
+            } 
         };
 
         // ===============================================
@@ -1287,8 +1307,8 @@ search box - the end user will not know they are happening.
         // the facet view object to be appended to the page
         var thefacetview = '<div id="facetview"><div class="row-fluid">';
         if ( options.facets.length > 0 ) {
-            thefacetview += '<div class="span6"><div id="facetview_filters"></div></div>';
-            thefacetview += '<div class="span6" id="facetview_rightcol">';
+            thefacetview += '<div class="span3"><div id="facetview_filters"></div></div>';
+            thefacetview += '<div class="span9" id="facetview_rightcol">';
         } else {
             thefacetview += '<div class="span12" id="facetview_rightcol">';
         }
@@ -1322,10 +1342,10 @@ search box - the end user will not know they are happening.
             };
             thefacetview += '</select>';
         };
-        thefacetview += '<input type="text" class="facetview_freetext span4" style="display:inline-block; margin:0 0 21px 0; background:' + options.searchbox_shade + ';" name="q" \
+        thefacetview += '<input id="facetview_freetext" type="text" class="facetview_freetext span4" style="display:inline-block; margin:0 0 21px 0; background:' + options.searchbox_shade + ';" name="q" \
             value="" placeholder="search term" />';
         if ( options.sharesave_link ) {
-            thefacetview += '<a class="btn facetview_sharesave" title="share or save this search" style="margin:0 0 21px 5px;" href=""><i class="icon-share-alt"></i></a>';
+            thefacetview += '<a class="btn facetview_sharesave" title="share or save this search" href=""><i class="icon-share-alt"></i></a>';
             thefacetview += '<div class="facetview_sharesavebox alert alert-info" style="display:none;"> \
                 <button type="button" class="facetview_sharesave close">×</button> \
                 <p>Share or save this search:</p> \
