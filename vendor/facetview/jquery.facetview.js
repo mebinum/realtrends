@@ -939,11 +939,10 @@ search box - the end user will not know they are happening.
             // put the filtered results on the page
             $('#facetview_results',obj).html(options.searchwrap_start);
             var infofiltervals = new Array();
+            var addressPoints = {};
 
             $.each(data.records, function(index, value) {
-                console.log(value);
                 $('#facetview_results', obj).append("<tr><td></td><td>"+value.Site_street+"</td><td>"+value.Site_suburb+"</td><td>"+value.site_pcode+"</td><td>"+value.geo_point+"</td></tr>");
-
                 //$('#facetview_results', obj).append( buildrecord(index) );
                 options.linkify ? $('#facetview_results tr:last-child', obj).linkify() : false;
             });
