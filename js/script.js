@@ -180,4 +180,33 @@ jQuery(document).ready(function($) {
 
 	//var heat = L.heatLayer(addressPoints).addTo(map);
 
+
+	//----------------------------------------------------------------------------------------------------------------
+	//LEAFLET ADD BOUNDARIES
+	//----------------------------------------------------------------------------------------------------------------
+/*
+	var bounds = JSON.parse(localStorage.bounds);
+
+	 console.log(bounds.features[0].geometry.coordinates)
+
+	 var i = 0;
+	 while(i < bounds.features.length){
+
+		var polygon = L.polygon([
+		bounds.features[i].geometry.coordinates[0]
+		]).addTo(map);
+
+	i++;
+	}
+
+	var i = 0;
+
+	while(i < theseBounds.features.length){}
+
+		theseBounds.features[i].geometry.coordinates
+
+
+	 i++;
+	}
+*/
 });
