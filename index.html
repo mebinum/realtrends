@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="vendor/facetview/css/facetview.css">
   <link rel="stylesheet" href="vendor/facetview/css/style.css">
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-  <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="vendor/nouislider/jquery.nouislider.css" />
+  <link rel="stylesheet" href="css/style.css">
 
   <script type="text/javascript" src="vendor/jquery/1.7.1/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
@@ -16,57 +17,44 @@
   <link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
   <script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
   <script type="text/javascript" src="vendor/facetview/jquery.facetview.js"></script>
+  <script type="text/javascript" src="vendor/nouislider/jquery.nouislider.min.js"></script>
 
   <!-- Leaf Scripts -->
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
   <script src="vendor/leaflet/leaflet-heat.js"></script>
-
-  <!-- Google Scripts -->
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-  
-  <!-- Demo Data being used until search is working -->
-  <!-- <script src="data/linz-demo.js"></script> -->
-
-  <!-- App JS -->
-  <script type="text/javascript" src="js/app.js"></script>
-
     
 </head>
 <body>
-
+    
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">Real Trends</a>
+          <a class="brand" href="#"><b>Real</b>Trends</a>
           <ul class="nav">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="http://github.com/okfn/facetview/">Github</a></li>
+            <li><a href="http://github.com/okfn/facetview/issues">Issues</a></li>
+            <li><a href="http://okfn.org/contact/">Contact</a></li>
           </ul>
         </div>
       </div>
     </div>
 
     <!-- Content --> 
-    <div class="container-fluid"> 
+    <div class="container"> 
       <div class="content">
-        <div class="page-header">
-        <h2>Demo</h2>
-        </div>
-        <div class="row-fluid">
-          <div class="span12">
-            <div class="facet-view-simple"></div> 
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span12">
-            <div id="map"></div>
-          </div>
-        </div>
-        <footer>
-          <p>&copy; RealTrends 2014. Mike, Christopher, Jordan, Richard, Alan, Leon</p>
-        </footer>
-      </div>
-    </div>
+        <div class="facet-view-simple"></div>  
 
-</body>
+      		<div id="timelineWrap">
+      			<div id="timeline">
+      				<div class="date"></div>
+      			</div>
+      		</div>
+          <div id="map"></div>
+      </div>
+  </div>
+
+  <script src="js/script.js"></script>
+
+  </body>
 </html>
