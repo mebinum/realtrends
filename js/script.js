@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
 	      {'field': 'number_demolished', 'display': 'Demolished?'}
 	    ],
 	    paging: {
-	      size: 10
+	      size: 200
 	    },
 	    on_results_returned: function(sdata) {
 
@@ -58,8 +58,8 @@ jQuery(document).ready(function($) {
 	            }
 
 	            if(geocode) {
-	              var lon = geocode[1];
-	              var lat = geocode[0];
+	              var lon = parseFloat(geocode[1]);
+	              var lat = parseFloat(geocode[0]);
 
 	              addressPoints.push(new Array(lon,lat));
 	            }
@@ -67,7 +67,12 @@ jQuery(document).ready(function($) {
 
 	        //console.log(addressPoints);
 
-	       // var heat = L.heatLayer(addressPoints, {radius: 25}).addTo(map);
+	        var heat = L.heatLayer(addressPoints, {radius: 25}).addTo(map);
+	        L.heatLayer(addressPoints, {
+	        	radius: 30,
+	        	gradient: {1: 'blue', 0.65: 'lime', 0.1: 'red'},
+	        	blur: 1
+	        }).addTo(map);
 
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Site Geocode</th></tr></thead><tbody>',
@@ -172,10 +177,10 @@ jQuery(document).ready(function($) {
 	$map.css('height',  $(window).height() - 40);
 
 	//init map
-	var map = L.map('map').setView([-37.87, 175.475], 2);
+	var map = L.map('map').setView([-37.00, 145], 7);
 
 	var tiles = L.tileLayer('http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms and Feedback</a>',
+	    attribution: '',
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
 
