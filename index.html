@@ -22,24 +22,6 @@
   <!-- Leaf Scripts -->
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
   <script src="vendor/leaflet/leaflet-heat.js"></script>
-  <script src="data/linz-demo.js"></script>
-  
-
-
-    <script type="text/javascript">
-     /* jQuery(document).ready(function($) {
-        $('.facet-view-simple').facetview({
-          search_url: 'https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.bonsai.io?',
-          search_index: 'elasticsearch',
-          facets: [
-              {'field': 'permit_stage_number.exact', 'display': 'Permit Stage Number'}
-          ],
-          paging: {
-            size: 10
-          }
-        });
-      });*/
-  </script>
     
 </head>
 <body>
@@ -61,27 +43,18 @@
     <div class="container"> 
       <div class="content">
 
+        <div class="facet-view-simple"></div>
 
-
-		<div id="timelineWrap">
-			<div id="timeline">
-				<div class="date"></div>
-			</div>
-		</div>
-        <div id="map"></div>
-
-    
+      		<div id="timelineWrap">
+      			<div id="timeline">
+      				<div class="date"></div>
+      			</div>
+      		</div>
+          <div id="map"></div>
       </div>
+  </div>
 
- <!--    <footer>
-    <p>&copy; RealTrends 2014. Mike, Christopher, Jordan, Richard, Alan</p>
-    </footer> -->
-</div>
+  <script src="js/script.js"></script>
 
-
-<script src="js/script.js"></script>
-
-
-
-</body>
+  </body>
 </html>
