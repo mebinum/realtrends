@@ -10,28 +10,140 @@ a {
 	color: #0077ff; 
 }
 
-.facet-view-simple{
-	display: none !important;
-	width:800px;
-	height:600px;
-	margin:20px auto 0 auto;
-}
-
 .container{
-	width: 100%;
+	width: auto;
 }
 .content{
 	padding: 0;
 	margin: 0;
 }
 
+
+/* ============================================================
+===============================================================
+  TOP BAR
+===============================================================
+=============================================================*/
+div.navbar .container{
+	padding-left: 10px;
+	height: 50px;
+}
+.navbar-inner{
+	background: none;
+	background-color: #000;
+}
+.navbar .rightContainer{
+	width: 660px;
+	float: right;
+	margin-right: 10px;
+}
+.rightContainer .button{
+	margin-top: 0;
+}
+#search{
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+#filterBtn{
+	position: absolute;
+	right: 10px;
+	top: 5px;
+	width: 80px;
+}
+#timelineBtn{
+	position: absolute;
+	right: 100px;
+	top: 5px;
+	width: 80px;
+}
+
+/* FACET VIEW ------------------------------------------------*/
+.facet-view-simple{
+	position: absolute;
+	right: 17px;
+	width:660px;
+	margin:0px auto 0 auto;
+}
+.facetview_sharesave{
+	position: absolute;
+	right: 200px;
+	top: 0px;
+}
+#facetview_rightcol{
+	width: 100%;
+}
+#facetview_filters{
+	display: none;
+}
+.facetview_search_options_container{
+	padding-top: 5px;
+}
+#facetview .span3{
+	display:none;
+}
+#facetview_rightcol .facetview_freetext{
+	width:430px;
+}
+#facetview table{
+	display: none;
+}
+/* ============================================================
+===============================================================
+  INFO PANEL
+===============================================================
+=============================================================*/
+
+#infoPanel{
+	display: none;
+	position: absolute;
+	top: 190px;
+	left: 50px;
+	width: 330px;
+	background-color: #FF8000;
+	z-index: 5000;
+	color: #FFF;
+}
+#infoPanel h1{
+	font-size: 24px;
+	text-align: center;
+	color: #FFF;
+	padding: 20px 15px;
+	line-height: 1;
+	background-color: #FF6200;
+}
+#infoPanel .clearfix{
+	border-bottom: 1px solid #FF9830;
+}
+#infoPanel .info{
+	float: left;
+	width: 49.7%;
+	font-size: 14px;
+	padding: 13px 10px;
+	/* border-left: 1px solid #FF9830; */
+	box-sizing: border-box;
+}
+#infoPanel .labely{
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #FFC182;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+/* ============================================================
+===============================================================
+  TIMELINE
+===============================================================
+=============================================================*/
+
 #timelineWrap{
 	position: absolute;
 	left: 0px;
-	bottom: 0px;
+	top: 50px;
 	z-index: 1000;
-	padding:50px 100px 30px;
-	background-color: rgba(0,0,0,0.9);
+	padding:50px 60px 30px;
+	background-color: #151515;
+	border-top: 1px solid #252525;
 
 	width: 100%;
 	box-sizing: border-box;
@@ -42,20 +154,12 @@ a {
 	box-shadow: none;
 }
 #timeline .date{
-	margin-top: -35px;
-	height: 35px;
+	margin-top: -40px;
+	height: 40px;
 	text-align: center;
 	font-size: 24px;
 	color: #FFF;
 }
-#map { 
-	width: 100%;
-	height: 500px;
-}
-div.navbar .container{
-	padding-left: 10px;
-}
-
 
 .noUi-handle{
 	box-shadow: none;
@@ -69,10 +173,24 @@ div.navbar .container{
 
 .noUi-connect{
 	box-shadow: none;
-	background-color: #fff;
+	background-color: #363636;
 }
+
 .noUi-base{
-	background-color: #ccc;
+	background-color: #080808;
+}
+
+
+/* main bar */
+.noUi-target{
+	border-color: #262626;
+}
+
+/* inner bar */
+.noUi-origin{
+	top: -1px;
+	border: 1px solid #4D4D4D;
+	height: 20px;
 }
 .tooltip{
 	opacity: 0;
@@ -88,11 +206,53 @@ div.navbar .container{
 	padding-bottom: 4px;
 	border-radius: 5px;
 
-	-webkit-transition: opacity 300ms ease-out;
-    -moz-transition: opacity 300ms ease-out;
-    -o-transition: opacity 300ms ease-out;
-    transition: opacity 300ms ease-out;
+	-webkit-transition: opacity 500ms ease-out;
+    -moz-transition: opacity 500ms ease-out;
+    -o-transition: opacity 500ms ease-out;
+    transition: opacity 500ms ease-out;
+
 }
 .noUi-active .tooltip{
 	opacity: 1;
+
+	-webkit-transition: opacity 200ms ease-out;
+    -moz-transition: opacity 200ms ease-out;
+    -o-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
 }
+
+/* ============================================================
+===============================================================
+  MAP
+===============================================================
+=============================================================*/
+#map {
+	width: 100%;
+	height: 500px;
+}
+.leaflet-control-zoom{
+	display: none;
+}
+.leaflet-control-attribution{
+	display: none;
+}
+
+
+/* ============================================================
+===============================================================
+  CLEARFIX
+===============================================================
+=============================================================*/
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */

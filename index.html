@@ -30,12 +30,12 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#"><b>Real</b>Trends</a>
-          <ul class="nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="http://github.com/okfn/facetview/">About</a></li>
-            <li><a href="http://okfn.org/contact/">Contact</a></li>
-          </ul>
+			<a class="brand" href="#"><b>Real</b>Trends</a>
+			<div class="rightContainer">
+				<div class="facet-view-simple"></div>
+				<button id="filterBtn" class="button">Filters</button>
+				<button id="timelineBtn" class="button">Timeline</button>
+			</div>
         </div>
       </div>
     </div>
@@ -43,13 +43,42 @@
     <!-- Content --> 
     <div class="container"> 
       <div class="content">
-        <div class="facet-view-simple"></div>  
+
+        <div class="facet-view-simple"></div>
 
       		<div id="timelineWrap">
       			<div id="timeline">
       				<div class="date"></div>
       			</div>
       		</div>
+
+      		<div id="infoPanel">
+				<h1 id="suburb">Bentleigh East</h1>
+
+				<div class="clearfix">
+					<div class="info municipality">
+						<div class="labely">Municipality:</div>
+						<div class="value">Greater Bendigo</div>
+					</div>
+					<div class="info type">
+						<div class="labely">Type of permit:</div>
+						<div class="value">Commercial</div>
+					</div>
+				</div>
+
+				<div class="clearfix">
+					<div class="info average-cost">
+						<div class="labely">Estimated Cost:</div>
+						<div class="value">$15,302</div>
+					</div>
+					<div class="info additional-dwellings">
+						<div class="labely">Additional Rooms:</div>
+						<div class="value">Adispicing</div>
+					</div>
+				</div>
+
+      		</div>
+
           <div id="map"></div>
       </div>
   </div>

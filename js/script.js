@@ -12,22 +12,24 @@ jQuery(document).ready(function($) {
 	// FACET VIEW
 	//----------------------------------------------------------------------------------------------------------------
 
-	  var json = (function() {
-	        var json = null;
-	        $.ajax({
-	            'async': false,
-	            'global': false,
-	            'url': "indexer/postcodes.json",
-	            'dataType': "json",
-	            'success': function (data) {
-	                json = data;
-	            }
-	        });
-	        return json;
-	    })();
+	var json = (function() {
+		var json = null;
+		$.ajax({
+		    'async': false,
+		    'global': false,
+		    'url': "indexer/postcodes.json",
+		    'dataType': "json",
+		    'success': function (data) {
+		        json = data;
+		    }
+		});
+		return json;
+	})();
 
-	  $('.facet-view-simple').facetview({
-	    search_url: serverUrl,
+
+
+	$('.facet-view-simple').facetview({
+		search_url: serverUrl,
 	    search_index: searchIndex,
 	    initialsearch: true,
 	    facets: [],
@@ -62,16 +64,19 @@ jQuery(document).ready(function($) {
 	              	addressPoints.push(mark);
 	              	var marker = L.marker(mark).addTo(map);
 
-	              	var suburb = value._source.Site_suburb;
-	              	var municipality = value._source.site_municipality;
+	              	var markerData = {
+	              		"suburb" : value._source.Site_suburb,
+	              		"municipality" : value._source.site_municipality,
+	              		"permitType" : value._source.Building_classification_1,
+	              		"estimatedCost" : value._source.est_cost_project,
+	              		"additionalDwellings" : "None"
+	              	}
 
-	              	var popupContent = 	"<center><h4>"+suburb+"</h4></center>" +
-	              						"<table width='100%' border=0 cellpadding=0 cellspacing=0>" + 
-	              						"<tr>" +
-	              						"<td>Municipality</td><td>" + municipality + "</td>" +
-	              						"</tr>" +
-	              						"</table>";
-	              	marker.bindPopup(popupContent).openPopup();
+	              	if(value._source.dwellings_after_work > value._source.dwellings_before_work) {
+	              		markerData["additionalDwellings"] = value._source.dwellings_after_work - value._source.dwellings_before_work;
+	              	}
+
+	              	marker.on('click', function(){ populateContent(markerData);} )
 	              }
 	              
 	            }	            
@@ -90,7 +95,10 @@ jQuery(document).ready(function($) {
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
-	  });
+	});
+
+	//hide buttongruop
+	$('.facetview_search_options_container .btn-group:eq(0)').css('display','none');
 
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -228,7 +236,7 @@ jQuery(document).ready(function($) {
 
 	//set map height
 	var $map = $('#map');
-	$map.css('height',  $(window).height() - $('.navbar').height());
+	$map.css('height',  $(window).height() - 40);
 
 	//init map
 	var map = L.map('map').setView([-37.00, 145], 7);
@@ -237,5 +245,22 @@ jQuery(document).ready(function($) {
 	    attribution: '',
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
+
+	$("#infoPanel").hide();
+
+	function populateContent(json) {
+		$("#infoPanel").fadeOut(200, function() {
+			$("#suburb").html(json["suburb"]);
+			$(".municipality .value:first").html(json["municipality"]);
+			$(".type .value:first").html(json["permitType"]);
+			$(".average-cost .value:first").html("$"+json["estimatedCost"]);
+			$(".additional-dwellings .value:first").html(json["additionalDwellings"]);
+		});
+
+		$("#infoPanel").fadeIn(200);
+
+		
+
+	}
 
 });
