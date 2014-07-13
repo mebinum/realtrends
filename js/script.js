@@ -3,7 +3,22 @@
 var serverUrl = 'https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
+
+var enableHeatMap = true;
+var enableMarkers = false;
+
 var heatmap;
+var heatmapoptions = {
+	radius: 15,
+	gradient: {
+		0.1: 'blue', 
+		0.2: 'lime', 
+		0.3: 'red'
+	},
+	blur: 10,
+	opacity: 0.5
+}
+
 var markers = new Array();
 var addressPoints = new Array();
 
@@ -53,11 +68,12 @@ jQuery(document).ready(function($) {
 	    initialsearch: true,
 	    facets: [],
 	    paging: {
-	      size: 10
+	      size: 500
 	    },
 	    on_results_returned: function(sdata) {
 
 	    	removeAllMarkers();
+	    	removeAllHeatMaps();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
@@ -72,11 +88,16 @@ jQuery(document).ready(function($) {
 
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
-	              	  var point = new Array(lon,lat)
-		              addHeatMap(point);
 
-		           	  var mark = addMarker(point);
-		           	  addPointToMarker(mark, value._source);
+	              	if(enableHeatMap) {
+	              		var point = new Array(lon,lat)
+		              	addHeatMap(point);
+	              	}
+	              	  
+	              	if(enableMarkers) {
+	              		var mark = addMarker(point);
+		           	  	addPointToMarker(mark, value._source);
+	              	}
 	              }
 	              
 	            }	            
@@ -130,18 +151,23 @@ jQuery(document).ready(function($) {
 	}
 
 	function addHeatMap(point) {
-		addressPoints.push(point);
+		
+		if(point) {
+			addressPoints.push(point);
+
+		}
 
 		if(!heatmap) {
-        	heatmap = L.heatLayer(addressPoints, {
-	        	radius: 15,
-	        	gradient: {0.1: 'blue', 0.65: 'lime', 1: 'red'},
-	        	blur: 1
-	        }).addTo(map);
+        	heatmap = L.heatLayer(addressPoints, heatmapoptions).addTo(map);
         } else {
         	heatmap.setLatLngs(addressPoints);
         	heatmap.redraw();
         }
+	}
+
+	function removeAllHeatMaps() {
+		addressPoints = new Array();
+		addHeatMap();
 	}
 
 	function getGeocode(value) {
@@ -323,6 +349,7 @@ jQuery(document).ready(function($) {
 	}
 
 	function executeSearch() {
+		$("#infoPanel").fadeOut(200);
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
 	    $('#facet_search').keyup();
@@ -360,6 +387,12 @@ jQuery(document).ready(function($) {
 	    attribution: '',
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
+
+	function onMapClick(e) {
+	    $("#infoPanel").fadeOut(200);
+	}
+
+	map.on('click', onMapClick);
 
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES

@@ -111,7 +111,9 @@ simpleheat.prototype = {
         for (var i = 0, len = this._data.length, p; i < len; i++) {
             p = this._data[i];
 
-            ctx.globalAlpha = Math.max(p[2] / this._max, minOpacity || 0.05);
+
+            //change the opacity here
+            ctx.globalAlpha = Math.max(p[2] / this._max, minOpacity || 0.15);
             ctx.drawImage(this._circle, p[0] - this._r, p[1] - this._r);
         }
 
