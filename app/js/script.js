@@ -719,7 +719,7 @@ jQuery(document).ready(function($) {
 
 	}
 
-	legend.addTo(map);
+	//legend.addTo(map);
 
 
 });
