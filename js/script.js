@@ -545,7 +545,7 @@ jQuery(document).ready(function($) {
 
 			geojson = L.geoJson();
 
-			legend.addTo(map);
+			//legend.addTo(map);
 
 		}
 
