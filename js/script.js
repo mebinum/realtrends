@@ -9,6 +9,23 @@ jQuery(document).ready(function($) {
 
 
 	//----------------------------------------------------------------------------------------------------------------
+	// ANIMATE NAV BAR IN ON READY
+	//----------------------------------------------------------------------------------------------------------------
+		setTimeout(function(){
+			$('.logo').removeClass('fadedOut');
+		},250);
+		setTimeout(function(){
+			$('#search').removeClass('fadedOut');
+		},500);
+		setTimeout(function(){
+			$('#timelineBtn').removeClass('fadedOut');
+		},750);
+		setTimeout(function(){
+			$('#filterBtn').removeClass('fadedOut');
+		},1000);
+
+
+	//----------------------------------------------------------------------------------------------------------------
 	// FACET VIEW
 	//----------------------------------------------------------------------------------------------------------------
 
@@ -87,6 +104,8 @@ jQuery(document).ready(function($) {
 	// TIME LINE SLIDER
 	//----------------------------------------------------------------------------------------------------------------
 
+
+
 	var dateArray = [
 		'Q1 2009',
 		'Q2 2009',
@@ -112,10 +131,32 @@ jQuery(document).ready(function($) {
 		'Q2 2014'
 	]
 
+
+
+	var $timelineWrap = $('#timelineWrap');
 	var $timeline = $('#timeline');
 	var $date = $('#timeline').find('.date');
 	var $handle = $('.noUi-handle');
 	var $tooltips = $handle.find('.tooltip');
+
+	$('#timelineBtn').click(function(){
+
+		if( !$timelineWrap.hasClass('open') ){
+			$timelineWrap.addClass('open');
+			setTimeout(function(){
+				$timelineWrap.addClass('fadeIn');
+			},10)
+		}
+
+		else{
+			$timelineWrap.removeClass('fadeIn');
+			setTimeout(function(){
+				$timelineWrap.removeClass('open');
+			},550)
+		}
+
+
+	});
 
 	var toolTip = $.Link({
 		target: '-tooltip-<div class="tooltip"></div>',
@@ -157,7 +198,7 @@ jQuery(document).ready(function($) {
 		var date1 = dateArray[ Math.round(timelineVals[0]) ];
 		var date2 = dateArray[ Math.round(timelineVals[1]) ];
 		console.log(Math.round(timelineVals[1]));
-		var date = date1 + ' - ' + date2;
+		var date = date1 + ' <span class="dash">-</span> ' + date2;
 		$date.html(date);
 	}
 	displayDate();
