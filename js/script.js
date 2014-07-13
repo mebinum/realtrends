@@ -367,11 +367,6 @@ jQuery(document).ready(function($) {
 	var bounds = JSON.parse(localStorage.bounds);
 
 
-
-console.log(bounds);
-
-		L.geoJson(bounds).addTo(map);
-
 		function getColor(d) {
 		    return d > 1000 ? '#800026' :
 		           d > 500  ? '#BD0026' :
@@ -399,13 +394,13 @@ console.log(bounds);
 		//adds interaction to the map
 		function style(feature) {
 		    return {
-		        fillColor: "#fff",//getColor(feature.properties.density),
+		        fillColor: getColor(feature.properties.density),
 		        weight: 1,
 		        opacity: 1,
 		        background: 'gray',
 		        color: 'gray',
 		        dashArray: '0',
-		        fillOpacity: 1
+		        fillOpacity: 100
 		    };
 		}
 
@@ -439,7 +434,14 @@ console.log(bounds);
 
 		}
 		
+		function zoomToFeature(e) {
 
+
+			console.log(e.target.feature.properties.poa_2006)
+		    map.fitBounds(e.target.getBounds());
+
+
+		}
 
 		var geojson;
 		function onEachFeature(feature, layer) {
@@ -458,9 +460,7 @@ console.log(bounds);
 		geojson = L.geoJson();
 
 
-		function zoomToFeature(e) {
-		    map.fitBounds(e.target.getBounds());
-		}
+
 
 		var legend = L.control({position: 'bottomright'});
 
