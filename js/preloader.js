@@ -7,7 +7,6 @@ function loadFileJSON( toLocalStorage, fromUrl){
             localStorage[toLocalStorage] = JSON.stringify(data);
             console.log("Damn! Data not yet loaded locally! Ok: I'am loading it!");
         });
-      }
     }
 }
 

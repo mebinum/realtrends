@@ -513,7 +513,7 @@ jQuery(document).ready(function($) {
 	        weight: 1,
 	        color: 'gray',
 	        dashArray: '',
-	        fillOpacity: 0.7
+	        fillOpacity: 0
 	    });
 	}
 	
