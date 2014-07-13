@@ -461,20 +461,6 @@ jQuery(document).ready(function($) {
 
 		var bounds = JSON.parse(localStorage.bounds);
 
-
-		function getColor(d) {
-		    return d > 1000 ? '#800026' :
-		           d > 500  ? '#BD0026' :
-		           d > 200  ? '#E31A1C' :
-		           d > 100  ? '#FC4E2A' :
-		           d > 50   ? '#FD8D3C' :
-		           d > 20   ? '#FEB24C' :
-		           d > 10   ? '#FED976' :
-		                      '#FFEDA0';
-		}
-
-		//need a function to search the amount of permits per postcode
-
 		function getColor(d) {
 		    return d > 1000 ? '#800026' :
 		           d > 500  ? '#BD0026' :
@@ -499,11 +485,9 @@ jQuery(document).ready(function($) {
 		    };
 		}
 
-		L.geoJson(bounds, {style: style}).addTo(map);
 
 		function highlightFeature(e) {
 		    var layer = e.target;
-
 		    layer.setStyle({
 		        weight: 1,
 		        color: '#ff6200',
@@ -519,14 +503,12 @@ jQuery(document).ready(function($) {
 
 		function resetHighlight(e) {
 		    var layer = e.target;
-
 	    	layer.setStyle({
 		        weight: 1,
 		        color: 'gray',
 		        dashArray: '',
 		        fillOpacity: 0.7
 		    });
-
 		}
 		
 		function zoomToFeature(e) {
@@ -535,6 +517,7 @@ jQuery(document).ready(function($) {
 		}
 
 		var geojson;
+
 		function onEachFeature(feature, layer) {
 		    layer.on({
 		        mouseover: highlightFeature,
@@ -543,6 +526,8 @@ jQuery(document).ready(function($) {
 		    });
 		}
 
+<<<<<<< HEAD
+=======
 		
 		//adde event listeners
 		geojson = L.geoJson(bounds, {
@@ -550,9 +535,12 @@ jQuery(document).ready(function($) {
 		    onEachFeature: onEachFeature
 		}).addTo(map);
 		geojson = L.geoJson();
+>>>>>>> FETCH_HEAD
+
+
+
 
 		var legend = L.control({position: 'bottomright'});
-
 		legend.onAdd = function (map) {
 
 		    var div = L.DomUtil.create('div', 'info legend'),
@@ -569,7 +557,27 @@ jQuery(document).ready(function($) {
 		    return div;
 		};
 
+<<<<<<< HEAD
+
+		function enableBounds(){
+			//addmap
+			L.geoJson(bounds, {style: style}).addTo(map);
+
+			//adde event listeners
+			geojson = L.geoJson(bounds, {
+			    style: style,
+			    onEachFeature: onEachFeature
+			}).addTo(map);
+
+			geojson = L.geoJson();
+
+			legend.addTo(map);
+
+		}
+	
+=======
 		legend.addTo(map);
 	}
 
+>>>>>>> FETCH_HEAD
 });
