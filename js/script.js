@@ -2,9 +2,9 @@
 var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
-var enableHeatMap = false;
-var enableMarkers = true;
-var enableSuburbs = false;
+var enableHeatMap = true;
+var enableMarkers = false;
+var enableSuburbs = true;
 
 var heatmap;
 var heatmapoptions = {
@@ -97,10 +97,19 @@ jQuery(document).ready(function($) {
 		           	  	addPointToMarker(mark, value._source);
 	              	}
 
+	              	
 	              }
+
+
 	              
-	            }	            
+	            }	
+
+
 	        });
+	    
+					if(enableSuburbs) {
+	              		enableBounds();
+	              	}
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
@@ -457,7 +466,7 @@ jQuery(document).ready(function($) {
 		        background: 'gray',
 		        color: 'gray',
 		        dashArray: '0',
-		        fillOpacity: 100
+		        fillOpacity: 0
 		    };
 		}
 
@@ -502,17 +511,6 @@ jQuery(document).ready(function($) {
 		    });
 		}
 
-<<<<<<< HEAD
-=======
-		
-		//adde event listeners
-		geojson = L.geoJson(bounds, {
-		    style: style,
-		    onEachFeature: onEachFeature
-		}).addTo(map);
-		geojson = L.geoJson();
->>>>>>> FETCH_HEAD
-
 
 
 
@@ -533,7 +531,6 @@ jQuery(document).ready(function($) {
 		    return div;
 		};
 
-<<<<<<< HEAD
 
 		function enableBounds(){
 			//addmap
@@ -550,10 +547,7 @@ jQuery(document).ready(function($) {
 			legend.addTo(map);
 
 		}
-	
-=======
-		legend.addTo(map);
 	}
+	
 
->>>>>>> FETCH_HEAD
 });
