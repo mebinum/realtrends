@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "csvtojson": "^0.3.11",
+    "elasticsearch": "^2.3.0",
+    "underscore": "^1.6.0"
+  }
+}

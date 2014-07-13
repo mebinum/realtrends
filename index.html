@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Real Trends</title>
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/facetview/css/facetview.css">
+  <link rel="stylesheet" href="vendor/facetview/css/style.css">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+  <link rel="stylesheet" href="vendor/nouislider/jquery.nouislider.css" />
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="text/javascript" src="vendor/jquery/1.7.1/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
+  <script type="text/javascript" src="vendor/linkify/1.0/jquery.linkify-1.0-min.js"></script>  
+  <link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
+  <script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
+  <script type="text/javascript" src="vendor/facetview/jquery.facetview.js"></script>
+  <script type="text/javascript" src="vendor/nouislider/jquery.nouislider.min.js"></script>
+
+  <!-- Leaf Scripts -->
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
+  <script src="vendor/leaflet/HeatLayer.js"></script>
+  <script src="vendor/leaflet/simpleheat.js"></script>
+  <script src="js/preloader.js"></script> 
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+  
+</head>
+<body>
+    <div id="loading">
+
+      <div class="kart-loader">
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+        <div id="logoContainer">
+  			 <img src="images/logo.png" class="logo fadedOut" alt="logo" />
+        </div>
+  			<div class="rightContainer">
+  				<input type="text" id="search" class="fadedOut" placeholder="Type postcode here...">
+          <button id="filterBtn" class="button fadedOut"></button>
+  				<button id="timelineBtn" class="button fadedOut"></button>
+          <div class="facet-view-simple"></div>
+  			</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content --> 
+    <div class="container"> 
+      <div class="content">
+
+        <div class="facet-view-simple"></div>
+
+          <div id="timelineWrap">
+            <div id="timeline">
+              <div class="date"></div>
+            </div>
+          </div>
+
+      		<div id="filtersWrap">
+      			<div id="filters">
+              
+              <div class="visualisations clearfix">
+                <h2>Visualisations</h2>
+                <div class="cont">
+                  <input type="radio" name="group1" id="r1" value="1" checked /><label for="r1">Heat map</label>
+                </div>
+                <div class="cont">
+                  <input type="radio" name="group1" id="r2" value="1" /><label for="r2">Postcode Segmentation</label>
+                </div>
+              </div>
+
+              <div class="permitTypes clearfix">
+        				<h2>Types of Permit</h2>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c1" value="1" checked /><label for="c1">All</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c2" value="1" /><label for="c2">Residential</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c3" value="1" /><label for="c3">Detached House</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c4" value="1" /><label for="c4">Townhouse / Villa</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c5" value="1" /><label for="c5">Guesthouse / Hostel</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c6" value="1" /><label for="c6">Carpark/Storage/Wholesale</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c7" value="1" /><label for="c7">Laboratory/Factory</label>
+                </div>
+                <div class="cont">
+                  <input type="checkbox" name="group2" id="c8" value="1" /><label for="c8">Non-habitable Structure</label>
+                </div>
+              </div>
+              
+      			</div>
+      		</div>
+
+      		<div id="infoPanel">
+				<h1 id="suburb"></h1>
+
+        <div class="clearfix">
+          <div class="info type">
+            <div class="labely">Type of permit:</div>
+            <div class="value"></div>
+          </div>
+        </div>
+
+				<div class="clearfix">
+          <div class="info postcode">
+            <div class="labely">Postcode:</div>
+            <div class="value"></div>
+          </div>
+					
+          <div class="info average-cost">
+            <div class="labely">Estimated Cost:</div>
+            <div class="value"></div>
+          </div>
+				</div>
+
+				<div class="clearfix">
+
+          <div class="info permit-app-date">
+            <div class="labely">Permit Approved:</div>
+            <div class="value"></div>
+          </div>
+					
+					<div class="info additional-dwellings">
+						<div class="labely">Additional Rooms:</div>
+						<div class="value"></div>
+					</div>
+				</div>
+
+      		</div>
+
+          <div id="map"></div>
+      </div>
+  </div>
+  <script src="js/script.js"></script>
+  </body>
+</html>
