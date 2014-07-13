@@ -22,6 +22,13 @@ var addressPoints = new Array();
 
 jQuery(document).ready(function($) {
 
+	setTimeout(function(){
+		$('#welcomePanel').css('opacity','0');
+	},4000);
+	setTimeout(function(){
+		$('#welcomePanel').css('display','none');
+	},5000);
+
 	//----------------------------------------------------------------------------------------------------------------
 	// ANIMATE NAV BAR IN ON READY
 	//----------------------------------------------------------------------------------------------------------------
