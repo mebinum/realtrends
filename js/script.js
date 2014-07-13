@@ -70,8 +70,8 @@ jQuery(document).ready(function($) {
 	    },
 	    on_results_returned: function(sdata) {
 
-	    	removeAllMarkers();
-	    	removeAllHeatMaps();
+	    	//removeAllMarkers();
+	    	//removeAllHeatMaps();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
@@ -96,20 +96,13 @@ jQuery(document).ready(function($) {
 	              		var mark = addMarker(point);
 		           	  	addPointToMarker(mark, value._source);
 	              	}
-
-	              	
 	              }
-
-
-	              
 	            }	
-
-
 	        });
 	    
-					if(enableSuburbs) {
-	              		enableBounds();
-	              	}
+			if(enableSuburbs) {
+          		enableBounds();
+          	}
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
@@ -168,7 +161,7 @@ jQuery(document).ready(function($) {
         	heatmap = L.heatLayer(addressPoints, heatmapoptions).addTo(map);
         } else {
         	heatmap.setLatLngs(addressPoints);
-        	heatmap.redraw();
+        	//heatmap.redraw();
         }
 	}
 
@@ -200,6 +193,18 @@ jQuery(document).ready(function($) {
 
 
 	var dateArrayStart = [
+		['Q1 2006','01/01/2006'],
+		['Q2 2006','01/04/2006'],
+		['Q3 2006','01/07/2006'],
+		['Q4 2006','01/10/2006'],
+		['Q1 2007','01/01/2007'],
+		['Q2 2007','01/04/2007'],
+		['Q3 2007','01/07/2007'],
+		['Q4 2007','01/10/2007'],
+		['Q1 2008','01/01/2008'],
+		['Q2 2008','01/04/2008'],
+		['Q3 2008','01/07/2008'],
+		['Q4 2008','01/10/2008'],
 		['Q1 2009','01/01/2009'],
 		['Q2 2009','01/04/2009'],
 		['Q3 2009','01/07/2009'],
@@ -225,6 +230,18 @@ jQuery(document).ready(function($) {
 	];
 
 	var dateArrayEnd = [
+		['Q1 2006','31/03/2006'],
+		['Q2 2006','30/06/2006'],
+		['Q3 2006','30/09/2006'],
+		['Q4 2006','31/12/2006'],
+		['Q1 2007','31/03/2007'],
+		['Q2 2007','30/06/2007'],
+		['Q3 2007','30/09/2007'],
+		['Q4 2007','31/12/2007'],
+		['Q1 2008','31/03/2008'],
+		['Q2 2008','30/06/2008'],
+		['Q3 2008','30/09/2008'],
+		['Q4 2008','31/12/2008'],
 		['Q1 2009','31/03/2009'],
 		['Q2 2009','30/06/2009'],
 		['Q3 2009','30/09/2009'],
@@ -291,7 +308,7 @@ jQuery(document).ready(function($) {
 
 
 	$timeline.noUiSlider({
-		start: [0, 21],
+		start: [0, dateArrayStart.length - 1],
 		step: 1,
 		margin: 0,
 		connect: true,
@@ -300,7 +317,7 @@ jQuery(document).ready(function($) {
 		behaviour: 'tap-drag',
 		range: {
 			'min': 0,
-			'max': 21
+			'max': dateArrayStart.length - 1
 		},
 		serialization: {
 			lower: [ toolTip ],
@@ -358,6 +375,12 @@ jQuery(document).ready(function($) {
 
 	function executeSearch() {
 		$("#infoPanel").fadeOut(200);
+
+		if( map.getZoom() == 12 ) {
+			enableMarkers = true;
+		}
+
+
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
 	    $('#facet_search').keyup();
@@ -441,121 +464,110 @@ jQuery(document).ready(function($) {
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
+	var bounds = JSON.parse(localStorage.bounds);
 
-	if(enableSuburbs) {
-
-		var bounds = JSON.parse(localStorage.bounds);
-
-		function getColor(d) {
-		    return d > 1000 ? '#800026' :
-		           d > 500  ? '#BD0026' :
-		           d > 200  ? '#E31A1C' :
-		           d > 100  ? '#FC4E2A' :
-		           d > 50   ? '#FD8D3C' :
-		           d > 20   ? '#FEB24C' :
-		           d > 10   ? '#FED976' :
-		                      '#FFEDA0';
-		}
-
-		//adds interaction to the map
-		function style(feature) {
-		    return {
-		        fillColor: getColor(feature.properties.density),
-		        weight: 1,
-		        opacity: 1,
-		        background: 'gray',
-		        color: 'gray',
-		        dashArray: '0',
-		        fillOpacity: 0
-		    };
-		}
+	function getColor(d) {
+	    return d > 1000 ? '#800026' :
+	           d > 500  ? '#BD0026' :
+	           d > 200  ? '#E31A1C' :
+	           d > 100  ? '#FC4E2A' :
+	           d > 50   ? '#FD8D3C' :
+	           d > 20   ? '#FEB24C' :
+	           d > 10   ? '#FED976' :
+	                      '#FFEDA0';
+	}
 
 
-		function highlightFeature(e) {
-		    var layer = e.target;
-		    layer.setStyle({
-		        fillColor: '#ff6200',
-		        weight: 1,
-		        color: '#ff6200',
-		        dashArray: '',
-		        fillOpacity: 0.7
-		    });
-
-		    if (!L.Browser.ie && !L.Browser.opera) {
-		        layer.bringToFront();
-		    }
-		}
+	//adds interaction to the map
+	function style(feature) {
+	    return {
+	        fillColor: getColor(feature.properties.density),
+	        weight: 1,
+	        opacity: 1,
+	        background: 'gray',
+	        color: 'gray',
+	        dashArray: '0',
+	        fillOpacity: 0
+	    };
+	}
 
 
-		function resetHighlight(e) {
-		    var layer = e.target;
-	    	layer.setStyle({
-		        weight: 1,
-		        color: 'gray',
-		        dashArray: '',
-		        fillOpacity: 0.0
-		    });
-		}
-		
-		function zoomToFeature(e) {
-			console.log(e.target.feature.properties.poa_2006)
-		    map.fitBounds(e.target.getBounds());
-		}
+	function highlightFeature(e) {
+	    var layer = e.target;
+	    layer.setStyle({
+	        weight: 1,
+	        color: '#ff6200',
+	        dashArray: '',
+	        fillOpacity: 0.7
+	    });
 
-		var geojson;
-
-		function onEachFeature(feature, layer) {
-		    layer.on({
-		        mouseover: highlightFeature,
-		        mouseout: resetHighlight,
-		        click: zoomToFeature
-		    });
-		}
+	    if (!L.Browser.ie && !L.Browser.opera) {
+	        layer.bringToFront();
+	    }
+	}
 
 
-
-
-		var legend = L.control({position: 'bottomright'});
-		legend.onAdd = function (map) {
-
-		    var div = L.DomUtil.create('div', 'info legend'),
-		        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-		        labels = [];
-
-		    // loop through our density intervals and generate a label with a colored square for each interval
-		    for (var i = 0; i < grades.length; i++) {
-		        div.innerHTML +=
-		            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-		            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-		    }
-
-		    return div;
-		};
-
-
-		function enableBounds(){
-			//addmap
-			L.geoJson(bounds, {style: style}).addTo(map);
-
-			//adde event listeners
-			geojson = L.geoJson(bounds, {
-			    style: style,
-			    onEachFeature: onEachFeature
-			}).addTo(map);
-
-			geojson = L.geoJson();
-
-			//legend.addTo(map);
-
-		}
-
-		function boundThisSuburb(postcode){
-
-
-
-		}
-
+	function resetHighlight(e) {
+	    var layer = e.target;
+    	layer.setStyle({
+	        weight: 1,
+	        color: 'gray',
+	        dashArray: '',
+	        fillOpacity: 0.7
+	    });
 	}
 	
+	function zoomToFeature(e) {
+		console.log(e.target.feature.properties.poa_2006)
+	    map.fitBounds(e.target.getBounds());
+	}
 
+	var geojson;
+
+	function onEachFeature(feature, layer) {
+	    layer.on({
+	        mouseover: highlightFeature,
+	        mouseout: resetHighlight,
+	        click: zoomToFeature
+	    });
+	}
+
+	var legend = L.control({position: 'bottomright'});
+	
+
+	legend.onAdd = function (map) {
+
+	    var div = L.DomUtil.create('div', 'info legend'),
+	        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+	        labels = [];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < grades.length; i++) {
+	        div.innerHTML +=
+	            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	    }
+
+	    return div;
+	};
+
+	function enableBounds(){
+		//addmap
+		L.geoJson(bounds, {style: style}).addTo(map);
+
+		//adde event listeners
+		geojson = L.geoJson(bounds, {
+		    style: style,
+		    onEachFeature: onEachFeature
+		}).addTo(map);
+
+		geojson = L.geoJson();
+
+	}
+
+	function boundThisSuburb(postcode){
+
+
+
+	}
 });
