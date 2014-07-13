@@ -53,7 +53,7 @@ jQuery(document).ready(function($) {
 	    initialsearch: true,
 	    facets: [],
 	    paging: {
-	      size: 20
+	      size: 10
 	    },
 	    on_results_returned: function(sdata) {
 
@@ -289,29 +289,61 @@ jQuery(document).ready(function($) {
 	}
 	displayDate();
 
-	var timer;
-
 	function slideEventHandler(){
 		var dates = displayDate();
 
 		var searchStart = dates[0];
 		var searchEnd = dates[1];
-		clearTimeout(timer);
-		timer = setTimeout(function(){ dateSearch(searchStart, searchEnd);}, 300);
-	}
-
-
-	function dateSearch(start, end) {
-		if(start && end ) {
-			$("#facetview_freetext").val("Permit_app_date:[\""+start+"\" TO \""+end+"\"]");
-			$('#facetview_freetext').keydown();
-		    $('#facetview_freetext').keypress();
-		    $('#facetview_freetext').keyup();
-		    $('#facetview_freetext').blur();
-		}
+		delay(function() {dateSearch(searchStart, searchEnd);}, 300);
 	}
 
 	$timeline.on('slide', slideEventHandler);
+
+	//----------------------------------------------------------------------------------------------------------------
+	// Search functions
+	//----------------------------------------------------------------------------------------------------------------
+
+	$('#search').keyup(function() {
+	    delay(function(){
+	      textSearch($('#search').val());
+	    }, 1000 );
+	});
+
+	function textSearch(text) {
+		var query = text;
+		$("#facet_search").val(query);
+		executeSearch();
+	}
+
+	function dateSearch(start, end) {
+		if(start && end ) {
+			$("#facet_search").val("Permit_app_date:[\""+start+"\" TO \""+end+"\"]");
+		}
+		executeSearch();
+	}
+
+	function executeSearch() {
+		$('#facet_search').keydown();
+	    $('#facet_search').keypress();
+	    $('#facet_search').keyup();
+	    $('#facet_search').blur();
+	}
+
+	//----------------------------------------------------------------------------------------------------------------
+	// Utility functions
+	//----------------------------------------------------------------------------------------------------------------
+	
+	//Delay manages timed functions, used for search etc.
+
+	var delay = (function(){
+	  var timer = 0;
+	  return function(callback, ms){
+	    clearTimeout (timer);
+	    timer = setTimeout(callback, ms);
+	  };
+	})();
+
+
 
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET MAP INIT

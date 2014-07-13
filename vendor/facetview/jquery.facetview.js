@@ -1153,10 +1153,11 @@ search box - the end user will not know they are happening.
             jQuery('.notify_loading').show();
             // update the options with the latest q value
             if ( options.searchbox_class.length == 0 ) {
-                options.q = $('.facetview_freetext', obj).val();
+                options.q = $('#facet_search').val();
             } else {
                 options.q = $(options.searchbox_class).last().val();
             };
+
             // make the search query
             var qrystr = elasticsearchquery();
             // augment the URL bar if possible
@@ -1342,7 +1343,7 @@ search box - the end user will not know they are happening.
             };
             thefacetview += '</select>';
         };
-        thefacetview += '<input id="facetview_freetext" type="text" class="facetview_freetext span4" style="display:inline-block; margin:0 0 21px 0; background:' + options.searchbox_shade + ';" name="q" \
+        thefacetview += '<input id="facet_search" type="text" class="facetview_freetext span4" style="display:inline-block; margin:0 0 21px 0; background:' + options.searchbox_shade + ';" name="q" \
             value="" placeholder="search term" />';
         if ( options.sharesave_link ) {
             thefacetview += '<a class="btn facetview_sharesave" title="share or save this search" href=""><i class="icon-share-alt"></i></a>';
