@@ -205,6 +205,9 @@ div.navbar .container{
 	line-height: 1;
 }
 
+
+
+
 /* ============================================================
 ===============================================================
   TIMELINE
@@ -335,6 +338,58 @@ div.navbar .container{
 	border-width: 6px;
 	margin-left: -6px;
 }
+
+
+/* ============================================================
+===============================================================
+  FILTERS
+===============================================================
+=============================================================*/
+
+#filtersWrap{
+	display: none;
+	opacity: 0;
+	position: absolute;
+	width: 660px;
+	padding: 30px;
+	right: 0px;
+	top: 66px;
+	z-index: 1000;
+	color: #FFF;
+	background-color: #000;
+	box-sizing: border-box;
+
+	-webkit-transition: opacity 500ms ease-out;
+    -moz-transition: opacity 500ms ease-out;
+    -o-transition: opacity 500ms ease-out;
+    transition: opacity 500ms ease-out;
+}
+#filtersWrap.open{
+	display: block;
+}
+#filtersWrap.fadeIn{
+	opacity:1;
+}
+#filtersWrap .cont{
+	float: left;
+	width: 40%;
+}
+#filtersWrap h2{
+	color: #FF8000;
+	border-bottom: 1px solid #333;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+}
+#filtersWrap label{
+	margin-left: 5px;
+	display: inline-block;
+	color: #FFF;
+}
+
+#filtersWrap .visualisations{
+	margin-bottom: 40px;
+}
+
 
 /* ============================================================
 ===============================================================

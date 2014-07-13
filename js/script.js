@@ -95,7 +95,7 @@ jQuery(document).ready(function($) {
 	              var lat = parseFloat(geocode[0]);
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
-	              
+
 	              	var markerData = {
 	              		"suburb" : value._source.Site_suburb,
 	              		"municipality" : value._source.site_municipality,
@@ -113,14 +113,19 @@ jQuery(document).ready(function($) {
 	              	}
 	              	  
 	              	if(enableMarkers) {
-
-	              		if(map.getZoom() >= 10) {
+	              		if(map.getZoom() >= 12) {
 	              			var mark = addMarker(point);
 		           	  		addPointToMarker(mark, value._source);
 	              		}
 	              	}
 	              }
-	            }	
+	            }
+
+	            console.log(map.getZoom());
+
+	            if(map.getZoom() < 12) {
+          			removeAllMarkers();
+          		}	
 
 	            $("#loading").fadeOut(1000);
 	        });
@@ -286,6 +291,9 @@ jQuery(document).ready(function($) {
 
 	$('#timelineBtn').click(function(){
 
+		$filtersWrap.removeClass('open');
+		$filtersWrap.removeClass('fadeIn');
+
 		if( !$timelineWrap.hasClass('open') ){
 			$timelineWrap.addClass('open');
 			setTimeout(function(){
@@ -358,6 +366,32 @@ jQuery(document).ready(function($) {
 
 	$timeline.on('slide', slideEventHandler);
 
+	//----------------------------------------------------------------------------------------------------------------
+	// Filter functions
+	//----------------------------------------------------------------------------------------------------------------
+
+	var $filtersWrap = $('#filtersWrap');
+	$('#filterBtn').click(function(){
+
+		$timelineWrap.removeClass('open');
+		$timelineWrap.removeClass('fadeIn');
+
+		if( !$filtersWrap.hasClass('open') ){
+			$filtersWrap.addClass('open');
+			setTimeout(function(){
+				$filtersWrap.addClass('fadeIn');
+			},10);
+		}
+
+		else{
+			$filtersWrap.removeClass('fadeIn');
+			setTimeout(function(){
+				$filtersWrap.removeClass('open');
+			},550)
+		}
+
+
+	});
 	//----------------------------------------------------------------------------------------------------------------
 	// Search functions
 	//----------------------------------------------------------------------------------------------------------------
@@ -434,12 +468,9 @@ jQuery(document).ready(function($) {
 
 		map.setView([parseFloat(lat),parseFloat(lon)],10);
 
-		if(map.getZoom() >= 10) {
-			enableMarkers = true;
+		if(map.getZoom() >= 12) {
+			executeSearch();
 		}
-
-		executeSearch();
-
 	}
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -462,8 +493,6 @@ jQuery(document).ready(function($) {
 	    attribution: '',
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
-
-	//map.setMaxBounds(7);
 
 	function populateContent(json) {
 
@@ -558,13 +587,13 @@ jQuery(document).ready(function($) {
 	map.on('click', onMapClick);
 
 	map.on('dragend', function(e) {
-		if(map.getZoom() >= 10) {
+		if(map.getZoom() >= 12) {
 			executeSearch();
 		}
 	});
 
 	map.on('zoomend', function() {
-		if(map.getZoom() >= 10) {
+		if(map.getZoom() >= 12) {
 			executeSearch();
 		}
 	});
