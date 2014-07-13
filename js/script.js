@@ -303,33 +303,118 @@ jQuery(document).ready(function($) {
 
 	}
 
-
+/*
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
-/*
+
 	var bounds = JSON.parse(localStorage.bounds);
 
-	 console.log(bounds.features[0].geometry.coordinates)
-
-	 var i = 0;
-	 while(i < bounds.features.length){
-
-		var polygon = L.polygon([
-		bounds.features[i].geometry.coordinates[0]
-		]).addTo(map);
-
-	i++;
-	}
-
-	var i = 0;
-
-	while(i < theseBounds.features.length){}
-
-		theseBounds.features[i].geometry.coordinates
+		L.geoJson(bounds).addTo(map);
 
 
-	 i++;
-	}
+		function getColor(d) {
+		    return d > 1000 ? '#800026' :
+		           d > 500  ? '#BD0026' :
+		           d > 200  ? '#E31A1C' :
+		           d > 100  ? '#FC4E2A' :
+		           d > 50   ? '#FD8D3C' :
+		           d > 20   ? '#FEB24C' :
+		           d > 10   ? '#FED976' :
+		                      '#FFEDA0';
+		}
+
+		//need a function to search the amount of permits per postcode
+
+		function style(feature) {
+		    return {
+		        fillColor: "#eee", //getColor(d) change this to the amount of permits per zone.
+		        weight: .7,
+		        opacity: 1,
+		        color: 'gray',
+		        dashArray: '0',
+		        fillOpacity: 0.7
+		    };
+		}
+
+
+
+		//adds interaction to the map
+		function highlightFeature(e) {
+		    var layer = e.target;
+
+		    layer.setStyle({
+		        weight: .7,
+		        color: '#ff6200',
+		        dashArray: '',
+		        fillOpacity: 0.7
+		    });
+
+		    if (!L.Browser.ie && !L.Browser.opera) {
+		        layer.bringToFront();
+		    }
+		}
+
+		//on mouseout even rest layers
+		function resetHighlight(e) {
+		    geojson.resetStyle(e.target);
+		}
+
+		//zoom to feature
+		function zoomToFeature(e) {
+		    map.fitBounds(e.target.getBounds());
+		
+		    //will need to update to query the area via post code.
+
+		}
+
+
+		function onEachFeature(feature, layer) {
+		    layer.on({
+		        mouseover: highlightFeature,
+		        mouseout: resetHighlight,
+		        click: zoomToFeature
+		    });
+		}
+		//add event listeners
+		L.geoJson(bounds, {style: style}).addTo(map);
+
+		geojson = L.geoJson(bounds, {
+		    style: style,
+		    onEachFeature: onEachFeature
+		}).addTo(map);
+
+
+		function highlightFeature(e) {
+		 //   ...
+		    info.update(layer.feature.properties);
+		}
+
+		function resetHighlight(e) {
+		 //   ...
+		    info.update();
+		}
+
+
+		var legend = L.control({position: 'bottomright'});
+
+		legend.onAdd = function (map) {
+
+		    var div = L.DomUtil.create('div', 'info legend'),
+		        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+		        labels = [];
+
+		    // loop through our density intervals and generate a label with a colored square for each interval
+		    for (var i = 0; i < grades.length; i++) {
+		        div.innerHTML +=
+		            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+		            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		    }
+
+		    return div;
+		};
+
+		legend.addTo(map);
+
 */
 });
