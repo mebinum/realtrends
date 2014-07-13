@@ -4,9 +4,9 @@ git checkout master
 
 cd ../
 
-cd devops
+#sh devops/deploy.sh heroku -v
 
-sh deploy.sh heroku -v
+git subtree push --prefix app origin heroku
 
 echo -n "\nforcing a push to heroku"
 
