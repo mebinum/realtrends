@@ -157,6 +157,7 @@ div.navbar .container{
 =============================================================*/
 
 #infoPanel{
+	display: none;
 	position: absolute;
 	top: 210px;
 	left: 30px;

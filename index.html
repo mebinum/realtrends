@@ -21,8 +21,18 @@
 
   <!-- Leaf Scripts -->
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-  <script src="vendor/leaflet/leaflet-heat.js"></script>
+<<<<<<< HEAD
+  <script src="vendor/leaflet/leaflet-heat.js"></script> 
+  <!-- Leaf Scripts -->
+  <script src="js/preloader.js"></script> 
+
+
+
+=======
+  <script src="vendor/leaflet/HeatLayer.js"></script>
+  <script src="vendor/leaflet/simpleheat.js"></script>
     
+>>>>>>> FETCH_HEAD
 </head>
 <body>
     
@@ -55,7 +65,7 @@
       		</div>
 
       		<div id="infoPanel">
-				<h1>Bentleigh East</h1>
+				<h1 id="suburb">Bentleigh East</h1>
 
 				<div class="clearfix">
 					<div class="info municipality">
@@ -69,24 +79,13 @@
 				</div>
 
 				<div class="clearfix">
-					<div class="info municipality">
-						<div class="labely">Average Cost:</div>
+					<div class="info average-cost">
+						<div class="labely">Estimated Cost:</div>
 						<div class="value">$15,302</div>
 					</div>
-					<div class="info type">
-						<div class="labely">Lorem ipsum:</div>
+					<div class="info additional-dwellings">
+						<div class="labely">Additional Rooms:</div>
 						<div class="value">Adispicing</div>
-					</div>
-				</div>
-
-				<div class="clearfix">
-					<div class="info municipality">
-						<div class="labely">Lorem ipsum:</div>
-						<div class="value">Borum Gipsum</div>
-					</div>
-					<div class="info type">
-						<div class="labely">Ipsum:</div>
-						<div class="value">Eius modus lor</div>
 					</div>
 				</div>
 
@@ -95,8 +94,6 @@
           <div id="map"></div>
       </div>
   </div>
-
   <script src="js/script.js"></script>
-
   </body>
 </html>

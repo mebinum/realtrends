@@ -1,0 +1,151 @@
+{
+    "properties": {
+        "permit_stage_number": {
+            "type": "string"
+        },
+        "permit_date": {
+            "type" : "date",
+            "format": "dd/mm/yyy"
+        },
+        "Levy_return_year": {
+            "type" : "date",
+            "format" : "year"
+        },
+        "Levy_return_month": {
+            "type" : "date",
+            "format": "year_month"
+        },
+        "Reported_Levy_amount": {
+            "type": "integer"
+        },
+        "Calculated_Levy_amount": {
+            "type": "integer"
+        },
+        "Reported_Cost_of_works": {
+            "type": "integer"
+        },
+        "Calculated_Cost_of_works": {
+            "type": "integer"
+        },
+        "Owner_sector": {
+            "type": "string"
+        },
+        "Site_street": {
+            "type": "string"
+        },
+        "Site_suburb": {
+            "type": "string"
+        },
+        "site_pcode": {
+            "type": "string"
+        },
+        "site_municipality": {
+            "type": "string"
+        },
+        "Allotment_Area": {
+            "type": "string"
+        },
+        "Builder_suburb": {
+            "type": "string"
+        },
+        "Builder_state": {
+            "type": "string"
+        },
+        "Builder_pcode": {
+            "type": "string"
+        },
+        "Building_classification_1": {
+            "type": "string"
+        },
+        "Description": {
+            "type": "string"
+        },
+        "Material_Code_Floor": {
+            "type": "string"
+        },
+        "Material_Code_Frame": {
+            "type": "string"
+        },
+        "Material_Code_Roof": {
+            "type": "string"
+        },
+        "Material_Code_Walls": {
+            "type": "string"
+        },
+        "dwellings_before_work": {
+            "type": "string"
+        },
+        "dwellings_after_work": {
+            "type": "string"
+        },
+        "Number_of_storeys": {
+            "type": "string"
+        },
+        "number_demolished": {
+            "type": "string"
+        },
+        "Floor_area": {
+            "type": "string"
+        },
+        "Nature_of_work": {
+            "type": "string"
+        },
+        "Multiple_Dwellings": {
+            "type": "string"
+        },
+        "cost_of_works_domestic": {
+            "type": "string"
+        },
+        "Permit_app_date": {
+            "type":"date",
+            "format": "dd/mm/yyy"
+        },
+        "BACV_applicable_flag": {
+            "type": "string"
+        },
+        "Calculated_levy_BACV": {
+            "type": "string"
+        },
+        "solar_hot_water": {
+            "type": "string"
+        },
+        "rainwater_tank": {
+            "type": "string"
+        },
+        "est_cost_project": {
+            "type": "integer"
+        },
+        "BASIS_Zone": {
+            "type": "string"
+        },
+        "BASIS_Region": {
+            "type": "string"
+        },
+        "BASIS_SubRegion": {
+            "type": "string"
+        },
+        "BASIS_SubRegion1": {
+            "type": "string"
+        },
+        "BASIS_NOW": {
+            "type": "string"
+        },
+        "BASIS_BCA": {
+            "type": "string"
+        },
+        "BASIS_OwnershipSector": {
+            "type": "string"
+        },
+        "BASIS_OwnerBuilder": {
+            "type": "string"
+        },
+        "postcode_geocode": {
+            "type": "geo_point",
+            "store": true
+        },
+        "Builder_pcode_geocode":{
+            "type": "geo_point",
+            "store": true
+        }
+    }
+}
