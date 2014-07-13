@@ -4,7 +4,7 @@ var searchIndex = 'elasticsearch';
 
 var enableHeatMap = true;
 var enableMarkers = false;
-var enableSuburbs = false;
+var enableSuburbs = true;
 
 var heatmap;
 var heatmapoptions = {
@@ -70,8 +70,8 @@ jQuery(document).ready(function($) {
 	    },
 	    on_results_returned: function(sdata) {
 
-	    	removeAllMarkers();
-	    	removeAllHeatMaps();
+	    	//removeAllMarkers();
+	    	//removeAllHeatMaps();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
@@ -96,11 +96,13 @@ jQuery(document).ready(function($) {
 	              		var mark = addMarker(point);
 		           	  	addPointToMarker(mark, value._source);
 	              	}
-
 	              }
-	              
-	            }	            
+	            }	
 	        });
+	    
+			if(enableSuburbs) {
+          		enableBounds();
+          	}
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
@@ -373,6 +375,12 @@ jQuery(document).ready(function($) {
 
 	function executeSearch() {
 		$("#infoPanel").fadeOut(200);
+
+		if( map.getZoom() == 12 ) {
+			enableMarkers = true;
+		}
+
+
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
 	    $('#facet_search').keyup();
@@ -456,128 +464,108 @@ jQuery(document).ready(function($) {
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
+	var bounds = JSON.parse(localStorage.bounds);
 
-	if(enableSuburbs) {
+	function getColor(d) {
+	    return d > 1000 ? '#800026' :
+	           d > 500  ? '#BD0026' :
+	           d > 200  ? '#E31A1C' :
+	           d > 100  ? '#FC4E2A' :
+	           d > 50   ? '#FD8D3C' :
+	           d > 20   ? '#FEB24C' :
+	           d > 10   ? '#FED976' :
+	                      '#FFEDA0';
+	}
 
-		var bounds = JSON.parse(localStorage.bounds);
-
-		function getColor(d) {
-		    return d > 1000 ? '#800026' :
-		           d > 500  ? '#BD0026' :
-		           d > 200  ? '#E31A1C' :
-		           d > 100  ? '#FC4E2A' :
-		           d > 50   ? '#FD8D3C' :
-		           d > 20   ? '#FEB24C' :
-		           d > 10   ? '#FED976' :
-		                      '#FFEDA0';
-		}
-
-		//adds interaction to the map
-		function style(feature) {
-		    return {
-		        fillColor: getColor(feature.properties.density),
-		        weight: 1,
-		        opacity: 1,
-		        background: 'gray',
-		        color: 'gray',
-		        dashArray: '0',
-		        fillOpacity: 0
-		    };
-		}
+	//adds interaction to the map
+	function style(feature) {
+	    return {
+	        fillColor: getColor(feature.properties.density),
+	        weight: 1,
+	        opacity: 1,
+	        background: 'gray',
+	        color: 'gray',
+	        dashArray: '0',
+	        fillOpacity: 0
+	    };
+	}
 
 
-		function highlightFeature(e) {
-		    var layer = e.target;
-		    layer.setStyle({
-		        weight: 1,
-		        color: '#ff6200',
-		        dashArray: '',
-		        fillOpacity: 0.7
-		    });
+	function highlightFeature(e) {
+	    var layer = e.target;
+	    layer.setStyle({
+	        weight: 1,
+	        color: '#ff6200',
+	        dashArray: '',
+	        fillOpacity: 0.7
+	    });
 
-		    if (!L.Browser.ie && !L.Browser.opera) {
-		        layer.bringToFront();
-		    }
-		}
+	    if (!L.Browser.ie && !L.Browser.opera) {
+	        layer.bringToFront();
+	    }
+	}
 
 
-		function resetHighlight(e) {
-		    var layer = e.target;
-	    	layer.setStyle({
-		        weight: 1,
-		        color: 'gray',
-		        dashArray: '',
-		        fillOpacity: 0.7
-		    });
-		}
-		
-		function zoomToFeature(e) {
-			console.log(e.target.feature.properties.poa_2006)
-		    map.fitBounds(e.target.getBounds());
-		}
+	function resetHighlight(e) {
+	    var layer = e.target;
+    	layer.setStyle({
+	        weight: 1,
+	        color: 'gray',
+	        dashArray: '',
+	        fillOpacity: 0.7
+	    });
+	}
+	
+	function zoomToFeature(e) {
+		console.log(e.target.feature.properties.poa_2006)
+	    map.fitBounds(e.target.getBounds());
+	}
 
-		var geojson;
+	var geojson;
 
-		function onEachFeature(feature, layer) {
-		    layer.on({
-		        mouseover: highlightFeature,
-		        mouseout: resetHighlight,
-		        click: zoomToFeature
-		    });
-		}
+	function onEachFeature(feature, layer) {
+	    layer.on({
+	        mouseover: highlightFeature,
+	        mouseout: resetHighlight,
+	        click: zoomToFeature
+	    });
+	}
 
-<<<<<<< HEAD
-=======
-		
+	var legend = L.control({position: 'bottomright'});
+	
+
+	legend.onAdd = function (map) {
+
+	    var div = L.DomUtil.create('div', 'info legend'),
+	        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+	        labels = [];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < grades.length; i++) {
+	        div.innerHTML +=
+	            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+	    }
+
+	    return div;
+	};
+
+	function enableBounds(){
+		//addmap
+		L.geoJson(bounds, {style: style}).addTo(map);
+
 		//adde event listeners
 		geojson = L.geoJson(bounds, {
 		    style: style,
 		    onEachFeature: onEachFeature
 		}).addTo(map);
+
 		geojson = L.geoJson();
->>>>>>> FETCH_HEAD
 
+		
+		
 
-
-
-		var legend = L.control({position: 'bottomright'});
-		legend.onAdd = function (map) {
-
-		    var div = L.DomUtil.create('div', 'info legend'),
-		        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-		        labels = [];
-
-		    // loop through our density intervals and generate a label with a colored square for each interval
-		    for (var i = 0; i < grades.length; i++) {
-		        div.innerHTML +=
-		            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-		            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-		    }
-
-		    return div;
-		};
-
-<<<<<<< HEAD
-
-		function enableBounds(){
-			//addmap
-			L.geoJson(bounds, {style: style}).addTo(map);
-
-			//adde event listeners
-			geojson = L.geoJson(bounds, {
-			    style: style,
-			    onEachFeature: onEachFeature
-			}).addTo(map);
-
-			geojson = L.geoJson();
-
-			legend.addTo(map);
-
-		}
-	
-=======
-		legend.addTo(map);
 	}
+	
 
->>>>>>> FETCH_HEAD
 });
