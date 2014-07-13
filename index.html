@@ -21,6 +21,7 @@
 
   <!-- Leaf Scripts -->
   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
   <script src="vendor/leaflet/HeatLayer.js"></script>
   <script src="vendor/leaflet/simpleheat.js"></script>
   <script src="js/preloader.js"></script> 
@@ -28,7 +29,48 @@
   
 </head>
 <body>
-    
+    <div id="loading">
+
+      <div class="kart-loader">
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+        <div class="sheath">
+            <div class="segment"></div>
+        </div>
+      </div>
+
+    </div>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -51,34 +93,50 @@
 
         <div class="facet-view-simple"></div>
 
-      		<div id="timelineWrap">
-      			<div id="timeline">
-      				<div class="date"></div>
+          <div id="timelineWrap">
+            <div id="timeline">
+              <div class="date"></div>
+            </div>
+          </div>
+
+      		<div id="filtersWrap">
+      			<div id="filters">
+      				FILTERS
       			</div>
       		</div>
 
       		<div id="infoPanel">
-				<h1 id="suburb">Bentleigh East</h1>
+				<h1 id="suburb"></h1>
+
+        <div class="clearfix">
+          <div class="info type">
+            <div class="labely">Type of permit:</div>
+            <div class="value"></div>
+          </div>
+        </div>
 
 				<div class="clearfix">
-					<div class="info municipality">
-						<div class="labely">Municipality:</div>
-						<div class="value">Greater Bendigo</div>
-					</div>
-					<div class="info type">
-						<div class="labely">Type of permit:</div>
-						<div class="value">Commercial</div>
-					</div>
+          <div class="info postcode">
+            <div class="labely">Postcode:</div>
+            <div class="value"></div>
+          </div>
+					
+          <div class="info average-cost">
+            <div class="labely">Estimated Cost:</div>
+            <div class="value"></div>
+          </div>
 				</div>
 
 				<div class="clearfix">
-					<div class="info average-cost">
-						<div class="labely">Estimated Cost:</div>
-						<div class="value">$15,302</div>
-					</div>
+
+          <div class="info permit-app-date">
+            <div class="labely">Permit Approved:</div>
+            <div class="value"></div>
+          </div>
+					
 					<div class="info additional-dwellings">
 						<div class="labely">Additional Rooms:</div>
-						<div class="value">Adispicing</div>
+						<div class="value"></div>
 					</div>
 				</div>
 

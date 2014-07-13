@@ -41,6 +41,13 @@ jQuery(document).ready(function($) {
 
 
 	//----------------------------------------------------------------------------------------------------------------
+	// LOADING SCREEN
+	//----------------------------------------------------------------------------------------------------------------
+	var docHeight = $(document).height();
+	$('#loading').css('height', docHeight);
+	$('.kart-loader').css('margin-top', docHeight/2);
+
+	//----------------------------------------------------------------------------------------------------------------
 	// FACET VIEW
 	//----------------------------------------------------------------------------------------------------------------
 
@@ -85,6 +92,19 @@ jQuery(document).ready(function($) {
 	              var lat = parseFloat(geocode[0]);
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
+	              	var mark = new Array(lon,lat)
+	              	addressPoints.push(mark);
+	              	var marker = L.marker(mark).addTo(map);
+
+	              	var markerData = {
+	              		"suburb" : value._source.Site_suburb,
+	              		"municipality" : value._source.site_municipality,
+	              		"permitType" : value._source.Building_classification_1,
+	              		"estimatedCost" : value._source.est_cost_project,
+	              		"additionalDwellings" : "None",
+	              		"site_pcode" : value._source.site_pcode,
+	              		"permitDate": value._source.Permit_app_date
+	              	}
 
 	              	var point = new Array(lon,lat);
 
@@ -127,7 +147,9 @@ jQuery(document).ready(function($) {
       		"municipality" : data.site_municipality,
       		"permitType" : data.Building_classification_1,
       		"estimatedCost" : data.est_cost_project,
-      		"additionalDwellings" : "None"
+      		"additionalDwellings" : "None",
+      		"site_pcode" : data.site_pcode,
+	        "permitDate": data.Permit_app_date
       	}
 
       	if(data.dwellings_after_work > data.dwellings_before_work) {
@@ -139,17 +161,7 @@ jQuery(document).ready(function($) {
 
 	$("#infoPanel").hide();
 
-	function populateContent(json) {
-		$("#infoPanel").fadeOut(200, function() {
-			$("#suburb").html(json["suburb"]);
-			$(".municipality .value:first").html(json["municipality"]);
-			$(".type .value:first").html(json["permitType"]);
-			$(".average-cost .value:first").html("$"+json["estimatedCost"]);
-			$(".additional-dwellings .value:first").html(json["additionalDwellings"]);
-		});
-
-		$("#infoPanel").fadeIn(200);
-	}
+	
 
 	function addHeatMap(point) {
 		
@@ -308,6 +320,7 @@ jQuery(document).ready(function($) {
 
 
 	$timeline.noUiSlider({
+
 		start: [0, dateArrayStart.length - 1],
 		step: 1,
 		margin: 0,
@@ -447,6 +460,91 @@ jQuery(document).ready(function($) {
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
 
+	$("#infoPanel").hide();
+
+	function populateContent(json) {
+		$("#infoPanel").fadeOut(200, function() {
+			$("#suburb").html(json["suburb"]);
+			$(".average-cost .value").html("$"+json["estimatedCost"]);
+			$(".additional-dwellings .value").html(json["additionalDwellings"]);
+			$(".permit-app-date .value").html(json["permitDate"]);
+			$(".postcode .value").html(json["site_pcode"]);
+
+			var permitType = json["permitType"].split('	');
+			var str = ['<ul>'];
+			var temp;
+
+			for(var i=0; i<permitType.length; i++){
+				if ( permitType[i] == '1' ){
+					str.push('<li>Residential</li>');
+				}
+				else if ( permitType[i] == '1A' ){
+					str.push('<li>Single Dwelling</li>');
+				}
+				else if ( permitType[i] == '1AI' ){
+					str.push('<li>Detached House</li>');
+				}
+				else if ( permitType[i] == '1AII' ){
+					str.push('<li>Townhouse/Villa</li>');
+				}
+				else if ( permitType[i] == '1B' || permitType[i] == '1BI' || permitType[i] == '1BII'){
+					str.push('<li>Guesthouse/Hostel</li>');
+				}
+				else if ( permitType[i] == '2' ){
+					str.push('<li>Apartment/Townhouse</li>');
+				}
+				else if ( permitType[i] == '3' || permitType[i] == '3A' || permitType[i] == '3B' || permitType[i] == '3C' || permitType[i] == '3D' || permitType[i] == '3E' || permitType[i] == '3F' ){
+					str.push('<li>Residential</li>');
+				}
+				else if ( permitType[i] == '4' || permitType[i] == '5' || permitType[i] == '6A' || permitType[i] == '6B' || permitType[i] == '6C' || permitType[i] == '6D'  ){
+					str.push('<li>Commercial</li>');
+				}
+				else if ( permitType[i] == '7'  ){
+					str.push('<li>Carpark/Storage/Wholesale</li>');
+				}
+				else if ( permitType[i] == '7A' ){
+					str.push('<li>Carpark</li>');
+				}
+				else if ( permitType[i] == '7B' ){
+					str.push('<li>Storage/Wholesale</li>');
+				}
+				else if ( permitType[i] == '8' ){
+					str.push('<li>Laboratory/Factory</li>');
+				}
+				else if ( permitType[i] == '9' ){
+					str.push('<li>Commercial</li>');
+				}
+				else if ( permitType[i] == '9A' ){
+					str.push('<li>Health Care Building</li>');
+				}
+				else if ( permitType[i] == '9B' ){
+					str.push('<li>Building within a School</li>');
+				}
+				else if ( permitType[i] == '9C' ){
+					str.push('<li>Aged Care Building</li>');
+				}
+				else if ( permitType[i] == '10' ){
+					str.push('<li>Non-habitable Structure</li>');
+				}
+				else if ( permitType[i] == '10A' ){
+					str.push('<li>Garage/Carport/Shed</li>');
+				}
+				else if ( permitType[i] == '10B' ){
+					str.push('<li>Fence/Mast/Antenna/Wall/Swimming Pool</li>');
+				}
+				else if ( permitType[i] == '10C' ){
+					str.push('<li>Private Bushfire Shelter</li>');
+				}
+			
+			}
+			str.push('</ul>');
+			$(".type .value").html(str.join(''));
+
+		});
+
+		$("#infoPanel").fadeIn(200);
+	}
+
 	function onMapClick(e) {
 	    $("#infoPanel").fadeOut(200);
 	}
@@ -560,6 +658,28 @@ jQuery(document).ready(function($) {
 		    style: style,
 		    onEachFeature: onEachFeature
 		}).addTo(map);
+		geojson = L.geoJson();
+
+
+
+
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+
+		    var div = L.DomUtil.create('div', 'info legend'),
+		        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+		        labels = [];
+
+		    // loop through our density intervals and generate a label with a colored square for each interval
+		    for (var i = 0; i < grades.length; i++) {
+		        div.innerHTML +=
+		            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+		            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		    }
+
+		    return div;
+		};
+
 
 		geojson = L.geoJson();
 
@@ -568,6 +688,6 @@ jQuery(document).ready(function($) {
 	function boundThisSuburb(postcode){
 
 
-
 	}
+
 });
