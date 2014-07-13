@@ -2,9 +2,9 @@
 var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
-var enableHeatMap = false;
-var enableMarkers = false;
-var enableSuburbs = false;
+var enableHeatMap = true;
+var enableMarkers = true;
+var enableSuburbs = true;
 
 var heatmap;
 var heatmapoptions = {
