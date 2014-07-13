@@ -22,7 +22,6 @@ var addressPoints = new Array();
 
 jQuery(document).ready(function($) {
 
-
 	//----------------------------------------------------------------------------------------------------------------
 	// ANIMATE NAV BAR IN ON READY
 	//----------------------------------------------------------------------------------------------------------------
@@ -65,8 +64,6 @@ jQuery(document).ready(function($) {
 		return json;
 	})();
 
-
-
 	$('.facet-view-simple').facetview({
 		search_url: serverUrl,
 	    search_index: searchIndex,
@@ -77,11 +74,15 @@ jQuery(document).ready(function($) {
 	    },
 	    on_results_returned: function(sdata) {
 
-	    	//removeAllMarkers();
-	    	//removeAllHeatMaps();
+	    	removeAllMarkers();
+	    	removeAllHeatMaps();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
+
+	        if(enableSuburbs) {
+          		enableBounds();
+          	}
 
 	        $.each(sdata.hits.hits, function(index, value){
 
@@ -92,7 +93,6 @@ jQuery(document).ready(function($) {
 	              var lat = parseFloat(geocode[0]);
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
-	
 
 	              	var markerData = {
 	              		"suburb" : value._source.Site_suburb,
@@ -117,10 +117,6 @@ jQuery(document).ready(function($) {
 	              }
 	            }	
 	        });
-	    
-			if(enableSuburbs) {
-          		enableBounds();
-          	}
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
@@ -140,6 +136,7 @@ jQuery(document).ready(function($) {
 	}
 
 	function addPointToMarker(marker, data) {
+
 		var markerData = {
       		"suburb" : data.Site_suburb,
       		"municipality" : data.site_municipality,
@@ -159,8 +156,6 @@ jQuery(document).ready(function($) {
 
 	$("#infoPanel").hide();
 
-	
-
 	function addHeatMap(point) {
 		
 		if(point) {
@@ -171,7 +166,7 @@ jQuery(document).ready(function($) {
         	heatmap = L.heatLayer(addressPoints, heatmapoptions).addTo(map);
         } else {
         	heatmap.setLatLngs(addressPoints);
-        	//heatmap.redraw();
+        	heatmap.redraw();
         }
 	}
 
@@ -276,8 +271,6 @@ jQuery(document).ready(function($) {
 		['Q2 2014','30/06/2014']
 	];
 
-
-
 	var $timelineWrap = $('#timelineWrap');
 	var $timeline = $('#timeline');
 	var $date = $('#timeline').find('.date');
@@ -302,8 +295,6 @@ jQuery(document).ready(function($) {
 				$timelineWrap.removeClass('open');
 			},550)
 		}
-
-
 	});
 
 	var toolTip = $.Link({
@@ -415,12 +406,6 @@ jQuery(document).ready(function($) {
 
 	function executeSearch() {
 		$("#infoPanel").fadeOut(200);
-
-		if( map.getZoom() == 12 ) {
-			enableMarkers = true;
-		}
-
-
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
 	    $('#facet_search').keyup();
@@ -468,7 +453,7 @@ jQuery(document).ready(function($) {
 
 	function moveMap(lat, lon) {
 		//console.log("moving map to:" + lat + ":" + lon);
-		map.setView([parseFloat(lat),parseFloat(lon)],12);
+		map.setView([parseFloat(lat),parseFloat(lon)],10);
 	}
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -487,9 +472,10 @@ jQuery(document).ready(function($) {
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
 
-	$("#infoPanel").hide();
-
 	function populateContent(json) {
+
+
+		
 		$("#infoPanel").fadeOut(200, function() {
 			$("#suburb").html(json["suburb"]);
 			$(".average-cost .value").html("$"+json["estimatedCost"]);
@@ -578,10 +564,6 @@ jQuery(document).ready(function($) {
 
 	map.on('click', onMapClick);
 
-	map.on('dragstart', function(e) {
-		resetSearch();
-	});
-
 	map.on('dragend', function(e) {
 		resetSearch();
 	});
@@ -638,13 +620,14 @@ jQuery(document).ready(function($) {
 	        weight: 1,
 	        color: 'gray',
 	        dashArray: '',
-	        fillOpacity: 0.7
+	        fillOpacity: 0
 	    });
 	}
 	
 	function zoomToFeature(e) {
 		console.log(e.target.feature.properties.poa_2006)
 	    map.fitBounds(e.target.getBounds());
+	    resetSearch();
 	}
 
 	var geojson;
@@ -687,9 +670,6 @@ jQuery(document).ready(function($) {
 		}).addTo(map);
 		geojson = L.geoJson();
 
-
-
-
 		var legend = L.control({position: 'bottomright'});
 		legend.onAdd = function (map) {
 
@@ -707,13 +687,7 @@ jQuery(document).ready(function($) {
 		    return div;
 		};
 
-
 		geojson = L.geoJson();
-
-	}
-
-	function boundThisSuburb(postcode){
-
 
 	}
 
