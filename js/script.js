@@ -71,6 +71,8 @@ jQuery(document).ready(function($) {
 		return json;
 	})();
 
+	$("#loading").show();
+
 	$('.facet-view-simple').facetview({
 		search_url: serverUrl,
 	    search_index: searchIndex,
@@ -118,11 +120,19 @@ jQuery(document).ready(function($) {
 	              	}
 	              	  
 	              	if(enableMarkers) {
-	              		var mark = addMarker(point);
-		           	  	addPointToMarker(mark, value._source);
+	              		if(map.getZoom() >= 12) {
+	              			var mark = addMarker(point);
+		           	  		addPointToMarker(mark, value._source);
+	              		}
 	              	}
 	              }
-	            }	
+	            }
+
+	            if(map.getZoom() < 12) {
+          			removeAllMarkers();
+          		}	
+
+	            $("#loading").fadeOut(1000);
 	        });
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
@@ -412,6 +422,7 @@ jQuery(document).ready(function($) {
 	}
 
 	function executeSearch() {
+		$("#loading").fadeIn(1000);
 		$("#infoPanel").fadeOut(200);
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
@@ -459,8 +470,12 @@ jQuery(document).ready(function($) {
 	}
 
 	function moveMap(lat, lon) {
-		//console.log("moving map to:" + lat + ":" + lon);
+
 		map.setView([parseFloat(lat),parseFloat(lon)],10);
+
+		if(map.getZoom() >= 12) {
+			executeSearch();
+		}
 	}
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -472,7 +487,12 @@ jQuery(document).ready(function($) {
 	$map.css('height',  $(window).height() - 40);
 
 	//init map
-	var map = L.map('map').setView([-37.00, 145], 7);
+	var map = L.map('map',{
+    	center: [-37.00, 145],
+    	zoom: 7,
+    	maxZoom: 12,
+    	minZoom: 7
+	});
 
 	var tiles = L.tileLayer('http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 	    attribution: '',
@@ -572,7 +592,15 @@ jQuery(document).ready(function($) {
 	map.on('click', onMapClick);
 
 	map.on('dragend', function(e) {
-		resetSearch();
+		if(map.getZoom() >= 12) {
+			executeSearch();
+		}
+	});
+
+	map.on('zoomend', function() {
+		if(map.getZoom() >= 12) {
+			executeSearch();
+		}
 	});
 
 	//----------------------------------------------------------------------------------------------------------------
@@ -649,7 +677,6 @@ jQuery(document).ready(function($) {
 
 	var legend = L.control({position: 'bottomright'});
 	
-
 	legend.onAdd = function (map) {
 
 	    var div = L.DomUtil.create('div', 'info legend'),
@@ -678,6 +705,7 @@ jQuery(document).ready(function($) {
 		geojson = L.geoJson();
 
 		var legend = L.control({position: 'bottomright'});
+		
 		legend.onAdd = function (map) {
 
 		    var div = L.DomUtil.create('div', 'info legend'),
@@ -687,7 +715,7 @@ jQuery(document).ready(function($) {
 		    // loop through our density intervals and generate a label with a colored square for each interval
 		    for (var i = 0; i < grades.length; i++) {
 		        div.innerHTML +=
-		            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+		            '<i style="margin: 100px; background:' + getColor(grades[i] + 1) + '"></i> ' +
 		            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
 		    }
 
@@ -697,5 +725,8 @@ jQuery(document).ready(function($) {
 		geojson = L.geoJson();
 
 	}
+
+	//legend.addTo(map);
+
 
 });
