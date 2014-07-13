@@ -26,6 +26,13 @@ jQuery(document).ready(function($) {
 
 
 	//----------------------------------------------------------------------------------------------------------------
+	// LOADING SCREEN
+	//----------------------------------------------------------------------------------------------------------------
+	var docHeight = $(document).height();
+	$('#loading').css('height', docHeight);
+	$('.kart-loader').css('margin-top', docHeight/2);
+
+	//----------------------------------------------------------------------------------------------------------------
 	// FACET VIEW
 	//----------------------------------------------------------------------------------------------------------------
 
@@ -86,7 +93,9 @@ jQuery(document).ready(function($) {
 	              		"municipality" : value._source.site_municipality,
 	              		"permitType" : value._source.Building_classification_1,
 	              		"estimatedCost" : value._source.est_cost_project,
-	              		"additionalDwellings" : "None"
+	              		"additionalDwellings" : "None",
+	              		"site_pcode" : value._source.site_pcode,
+	              		"permitDate": value._source.Permit_app_date
 	              	}
 
 	              	if(value._source.dwellings_after_work > value._source.dwellings_before_work) {
@@ -215,7 +224,7 @@ jQuery(document).ready(function($) {
 
 
 	$timeline.noUiSlider({
-		start: [0, 21],
+		start: [0, dateArrayStart.length -1],
 		step: 1,
 		margin: 0,
 		connect: true,
@@ -224,7 +233,7 @@ jQuery(document).ready(function($) {
 		behaviour: 'tap-drag',
 		range: {
 			'min': 0,
-			'max': 21
+			'max': dateArrayStart.length -1
 		},
 		serialization: {
 			lower: [ toolTip ],
@@ -289,12 +298,85 @@ jQuery(document).ready(function($) {
 	$("#infoPanel").hide();
 
 	function populateContent(json) {
+		console.log(json);
 		$("#infoPanel").fadeOut(200, function() {
 			$("#suburb").html(json["suburb"]);
-			$(".municipality .value:first").html(json["municipality"]);
-			$(".type .value:first").html(json["permitType"]);
-			$(".average-cost .value:first").html("$"+json["estimatedCost"]);
-			$(".additional-dwellings .value:first").html(json["additionalDwellings"]);
+			$(".average-cost .value").html("$"+json["estimatedCost"]);
+			$(".additional-dwellings .value").html(json["additionalDwellings"]);
+			$(".permit-app-date .value").html(json["permitDate"]);
+			$(".postcode .value").html(json["site_pcode"]);
+			console.log(json);
+
+			var permitType = json["permitType"].split('	');
+			var str = ['<ul>'];
+			var temp;
+
+			for(var i=0; i<permitType.length; i++){
+				if ( permitType[i] == '1' ){
+					str.push('<li>Residential</li>');
+				}
+				else if ( permitType[i] == '1A' ){
+					str.push('<li>Single Dwelling</li>');
+				}
+				else if ( permitType[i] == '1AI' ){
+					str.push('<li>Detached House</li>');
+				}
+				else if ( permitType[i] == '1AII' ){
+					str.push('<li>Townhouse/Villa</li>');
+				}
+				else if ( permitType[i] == '1B' || permitType[i] == '1BI' || permitType[i] == '1BII'){
+					str.push('<li>Guesthouse/Hostel</li>');
+				}
+				else if ( permitType[i] == '2' ){
+					str.push('<li>Apartment/Townhouse</li>');
+				}
+				else if ( permitType[i] == '3' || permitType[i] == '3A' || permitType[i] == '3B' || permitType[i] == '3C' || permitType[i] == '3D' || permitType[i] == '3E' || permitType[i] == '3F' ){
+					str.push('<li>Residential</li>');
+				}
+				else if ( permitType[i] == '4' || permitType[i] == '5' || permitType[i] == '6A' || permitType[i] == '6B' || permitType[i] == '6C' || permitType[i] == '6D'  ){
+					str.push('<li>Commercial</li>');
+				}
+				else if ( permitType[i] == '7'  ){
+					str.push('<li>Carpark/Storage/Wholesale</li>');
+				}
+				else if ( permitType[i] == '7A' ){
+					str.push('<li>Carpark</li>');
+				}
+				else if ( permitType[i] == '7B' ){
+					str.push('<li>Storage/Wholesale</li>');
+				}
+				else if ( permitType[i] == '8' ){
+					str.push('<li>Laboratory/Factory</li>');
+				}
+				else if ( permitType[i] == '9' ){
+					str.push('<li>Commercial</li>');
+				}
+				else if ( permitType[i] == '9A' ){
+					str.push('<li>Health Care Building</li>');
+				}
+				else if ( permitType[i] == '9B' ){
+					str.push('<li>Building within a School</li>');
+				}
+				else if ( permitType[i] == '9C' ){
+					str.push('<li>Aged Care Building</li>');
+				}
+				else if ( permitType[i] == '10' ){
+					str.push('<li>Non-habitable Structure</li>');
+				}
+				else if ( permitType[i] == '10A' ){
+					str.push('<li>Garage/Carport/Shed</li>');
+				}
+				else if ( permitType[i] == '10B' ){
+					str.push('<li>Fence/Mast/Antenna/Wall/Swimming Pool</li>');
+				}
+				else if ( permitType[i] == '10C' ){
+					str.push('<li>Private Bushfire Shelter</li>');
+				}
+			
+			}
+			str.push('</ul>');
+			$(".type .value").html(str.join(''));
+
 		});
 
 		$("#infoPanel").fadeIn(200);
