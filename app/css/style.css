@@ -153,6 +153,44 @@ div.navbar .container{
 }
 /* ============================================================
 ===============================================================
+  WELCOME PANEL
+===============================================================
+=============================================================*/
+
+#welcomePanel{
+	display: block;
+	position: absolute;
+	top: 210px;
+	left: 30px;
+	width: 330px;
+	padding: 30px;
+	box-sizing: border-box;
+	background-color: #FF6200;
+	z-index: 5000;
+	color: #FFF;
+
+	-webkit-transition: opacity 1000ms ease-out;
+    -moz-transition: opacity 1000ms ease-out;
+    -o-transition: opacity 1000ms ease-out;
+    transition: opacity 1000ms ease-out;
+}
+#welcomePanel h1{
+	font-size: 24px;
+	text-align: center;
+	color: #FFF;
+	padding: 20px 15px;
+	line-height: 1;
+	padding-top: 0;
+}
+#welcomePanel p{
+	color:#FFF;
+	font-size: 14px;
+	text-align: center;
+}
+
+
+/* ============================================================
+===============================================================
   INFO PANEL
 ===============================================================
 =============================================================*/
