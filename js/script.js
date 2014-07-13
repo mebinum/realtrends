@@ -474,6 +474,7 @@ jQuery(document).ready(function($) {
 		function highlightFeature(e) {
 		    var layer = e.target;
 		    layer.setStyle({
+		        fillColor: '#ff6200',
 		        weight: 1,
 		        color: '#ff6200',
 		        dashArray: '',
@@ -492,7 +493,7 @@ jQuery(document).ready(function($) {
 		        weight: 1,
 		        color: 'gray',
 		        dashArray: '',
-		        fillOpacity: 0.7
+		        fillOpacity: 0.0
 		    });
 		}
 		
@@ -547,6 +548,13 @@ jQuery(document).ready(function($) {
 			legend.addTo(map);
 
 		}
+
+		function boundThisSuburb(postcode){
+
+
+
+		}
+
 	}
 	
 
