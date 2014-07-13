@@ -121,8 +121,6 @@ jQuery(document).ready(function($) {
 	              }
 	            }
 
-	            console.log(map.getZoom());
-
 	            if(map.getZoom() < 12) {
           			removeAllMarkers();
           		}	
