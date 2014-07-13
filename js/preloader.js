@@ -1,4 +1,3 @@
-//localStorage.bounds = "";
 
 function loadFileJSON( toLocalStorage, fromUrl){
     if (localStorage[toLocalStorage]) {
@@ -8,7 +7,9 @@ function loadFileJSON( toLocalStorage, fromUrl){
             localStorage[toLocalStorage] = JSON.stringify(data);
             console.log("Damn! Data not yet loaded locally! Ok: I'am loading it!");
         });
+      }
     }
 }
 
-loadFileJSON("bounds","data/vic_postcode_sml.json");
+loadFileJSON("bounds", "./data/vic_postcode_sml.json");
+
