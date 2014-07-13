@@ -2,9 +2,9 @@
 var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
-var enableHeatMap = true;
+var enableHeatMap = false;
 var enableMarkers = false;
-var enableSuburbs = true;
+var enableSuburbs = false;
 
 var heatmap;
 var heatmapoptions = {
@@ -92,9 +92,7 @@ jQuery(document).ready(function($) {
 	              var lat = parseFloat(geocode[0]);
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
-	              	var mark = new Array(lon,lat)
-	              	addressPoints.push(mark);
-	              	var marker = L.marker(mark).addTo(map);
+	
 
 	              	var markerData = {
 	              		"suburb" : value._source.Site_suburb,
@@ -288,6 +286,9 @@ jQuery(document).ready(function($) {
 
 	$('#timelineBtn').click(function(){
 
+		$filtersWrap.removeClass('open');
+		$filtersWrap.removeClass('fadeIn');
+
 		if( !$timelineWrap.hasClass('open') ){
 			$timelineWrap.addClass('open');
 			setTimeout(function(){
@@ -362,6 +363,32 @@ jQuery(document).ready(function($) {
 
 	$timeline.on('slide', slideEventHandler);
 
+	//----------------------------------------------------------------------------------------------------------------
+	// Filter functions
+	//----------------------------------------------------------------------------------------------------------------
+
+	var $filtersWrap = $('#filtersWrap');
+	$('#filterBtn').click(function(){
+
+		$timelineWrap.removeClass('open');
+		$timelineWrap.removeClass('fadeIn');
+
+		if( !$filtersWrap.hasClass('open') ){
+			$filtersWrap.addClass('open');
+			setTimeout(function(){
+				$filtersWrap.addClass('fadeIn');
+			},10);
+		}
+
+		else{
+			$filtersWrap.removeClass('fadeIn');
+			setTimeout(function(){
+				$filtersWrap.removeClass('open');
+			},550)
+		}
+
+
+	});
 	//----------------------------------------------------------------------------------------------------------------
 	// Search functions
 	//----------------------------------------------------------------------------------------------------------------
