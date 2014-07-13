@@ -1,11 +1,10 @@
 //GLOBALS
-
-var serverUrl = 'https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.bonsai.io/building_data/_search?';
+var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
-
 var enableHeatMap = false;
-var enableMarkers = false;
+var enableMarkers = true;
+var enableSuburbs = false;
 
 var heatmap;
 var heatmapoptions = {
@@ -103,7 +102,7 @@ jQuery(document).ready(function($) {
 	            }	            
 	        });
 	    },
-	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th></tr></thead><tbody>',
+	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th><th>Geocode</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
 	});
 
@@ -154,7 +153,6 @@ jQuery(document).ready(function($) {
 		
 		if(point) {
 			addressPoints.push(point);
-
 		}
 
 		if(!heatmap) {
@@ -173,11 +171,11 @@ jQuery(document).ready(function($) {
 	function getGeocode(value) {
 		var geocode;
 
-		if(value && value._source && value._source.geo_point == undefined ) {
-          var postcode = value._source.site_pcode;
+		if(value && value._source && value._source.postcode_geocode == undefined ) {
+          var postcode = value._source.site_pcode ? value._source.site_pcode : "";
           geocode = json[postcode];
         } else {
-          geocode = value._source.geo_point;
+          geocode = value._source.postcode_geocode;
         }
 
         return geocode;
@@ -338,6 +336,7 @@ jQuery(document).ready(function($) {
 	function textSearch(text) {
 		var query = text;
 		$("#facet_search").val(query);
+		geocode(text);
 		executeSearch();
 	}
 
@@ -356,6 +355,13 @@ jQuery(document).ready(function($) {
 	    $('#facet_search').blur();
 	}
 
+	function resetSearch() {
+		$("#facet_search").val("");
+		$('#search').val("");
+		executeSearch();
+
+	}
+
 	//----------------------------------------------------------------------------------------------------------------
 	// Utility functions
 	//----------------------------------------------------------------------------------------------------------------
@@ -371,6 +377,27 @@ jQuery(document).ready(function($) {
 	})();
 
 
+	//Geocoding service with Google's Service
+
+	var geocoder;
+	geocoder = new google.maps.Geocoder();
+
+	function geocode(search) {
+	  var address = search + ", victoria, australia";
+	  geocoder.geocode( {'address': address}, function(results, status) {
+	    if (status == google.maps.GeocoderStatus.OK) {
+	      //console.log(results[0].geometry.location);
+	      moveMap(results[0].geometry.location.k,results[0].geometry.location.B);
+	    } else {
+	      console.log('Geocode was not successful for the following reason: ' + status);
+	    }
+	  });
+	}
+
+	function moveMap(lat, lon) {
+		//console.log("moving map to:" + lat + ":" + lon);
+		map.setView([parseFloat(lat),parseFloat(lon)],12);
+	}
 
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET MAP INIT
@@ -394,11 +421,21 @@ jQuery(document).ready(function($) {
 
 	map.on('click', onMapClick);
 
+	map.on('dragstart', function(e) {
+		resetSearch();
+	});
+
+	map.on('dragend', function(e) {
+		resetSearch();
+	});
+
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
 
-	var bounds = JSON.parse(localStorage.bounds);
+	if(enableSuburbs) {
+
+		var bounds = JSON.parse(localStorage.bounds);
 
 
 		function getColor(d) {
@@ -482,6 +519,7 @@ jQuery(document).ready(function($) {
 		    });
 		}
 
+		
 		//adde event listeners
 		geojson = L.geoJson(bounds, {
 		    style: style,
@@ -508,5 +546,6 @@ jQuery(document).ready(function($) {
 		};
 
 		legend.addTo(map);
-	
+	}
+
 });
