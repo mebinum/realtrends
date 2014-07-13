@@ -10,7 +10,12 @@ a {
 	color: #0077ff; 
 }
 
-
+input:focus, textarea:focus{
+	border-color: rgba(255, 980, 0, 0.8);
+	-webkit-box-shadow: inset 0 1px 1px rgba(255, 98, 0, 0.075),0 0 8px rgba(255, 98, 0, 0.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(255, 98, 0, 0.075),0 0 8px rgba(255, 98, 0, 0.6);
+	box-shadow: inset 0 1px 1px rgba(255, 98, 0, 0.075),0 0 8px rgba(255, 98, 0, 0.6);
+}
 
 
 
@@ -27,15 +32,39 @@ a {
 
 
 
+
 /* ============================================================
 ===============================================================
   TOP BAR
 ===============================================================
 =============================================================*/
-div.navbar .container{
-	padding-left: 10px;
-	height: 50px;
+
+.fadedOut{
+	opacity: 0;
 }
+div.navbar .container{
+	height: 66px;
+	background-image: url(../images/cartographer-custom.png);
+}
+#logoContainer{
+	position: absolute;
+	top: 0px;
+	left: 30px;
+	width: 122px;
+	height: 78px;
+	background-color: #000;
+	border: 1px solid #292929;
+	border-top: 0;
+}
+.navbar .logo{
+	padding: 13px 0 0 24px;
+
+	-webkit-transition: all 700ms ease-out;
+    -moz-transition: all 700ms ease-out;
+    -o-transition: all 700ms ease-out;
+    transition: all 700ms ease-out;
+}
+
 .navbar-inner{
 	background: none;
 	background-color: #000;
@@ -43,30 +72,56 @@ div.navbar .container{
 .navbar .rightContainer{
 	width: 660px;
 	float: right;
-	margin-right: 10px;
 }
-.rightContainer .button{
-	margin-top: 0;
-}
+
 #search{
-	margin-top: 5px;
-	margin-bottom: 0;
+	width: 275px;
+	margin-top: 12px;
+	padding: 10px 10px;
+
+	-webkit-transition: all 700ms ease-out;
+    -moz-transition: all 700ms ease-out;
+    -o-transition: all 700ms ease-out;
+    transition: all 700ms ease-out;
 }
-#filterBtn{
-	position: absolute;
-	right: 10px;
-	top: 5px;
-	width: 80px;
+
+.rightContainer .button{
+	background: url(../images/buttons.png) no-repeat;
+	float: right;
+	width: 164px;
+	height: 66px;
+	margin-top: 0;
+	background-color: rgba(0,0,0,0.5);
+	padding-top: 4px;
+	padding-bottom: 4px;
+	color: #fff;
+	border: 0;
+	border-left: 1px solid #282828;
+	outline: 0;
+
+	-webkit-transition: all 700ms ease-out;
+    -moz-transition: all 700ms ease-out;
+    -o-transition: all 700ms ease-out;
+    transition: all 700ms ease-out;
+}
+.rightContainer .button:hover{
+	background-color: #FF6200;
+	-webkit-transition: all 250ms ease-out;
+    -moz-transition: all 250ms ease-out;
+    -o-transition: all 250ms ease-out;
+    transition: all 250ms ease-out;
+
 }
 #timelineBtn{
-	position: absolute;
-	right: 100px;
-	top: 5px;
-	width: 80px;
+	background-position: 30px 22px;
+}
+#filterBtn{
+	background-position: -132px 22px;
 }
 
 /* FACET VIEW ------------------------------------------------*/
 .facet-view-simple{
+	display: none;
 	position: absolute;
 	right: 17px;
 	width:660px;
@@ -75,7 +130,7 @@ div.navbar .container{
 .facetview_sharesave{
 	position: absolute;
 	right: 200px;
-	top: 0px;
+	top: 5px;
 }
 #facetview_rightcol{
 	width: 100%;
@@ -84,7 +139,7 @@ div.navbar .container{
 	display: none;
 }
 .facetview_search_options_container{
-	padding-top: 5px;
+	padding-top: 10px;
 }
 #facetview .span3{
 	display:none;
@@ -104,8 +159,8 @@ div.navbar .container{
 #infoPanel{
 	display: none;
 	position: absolute;
-	top: 190px;
-	left: 50px;
+	top: 210px;
+	left: 30px;
 	width: 330px;
 	background-color: #FF8000;
 	z-index: 5000;
@@ -133,7 +188,7 @@ div.navbar .container{
 #infoPanel .labely{
 	font-size: 12px;
 	text-transform: uppercase;
-	color: #FFC182;
+	color: #ffdb81;
 	font-weight: bold;
 	letter-spacing: 1px;
 }
@@ -145,37 +200,56 @@ div.navbar .container{
 =============================================================*/
 
 #timelineWrap{
+	display: none;
+	opacity: 0;
 	position: absolute;
 	left: 0px;
-	top: 50px;
+	top: 66px;
 	z-index: 1000;
-	padding:50px 60px 30px;
-	background-color: #151515;
+	padding:70px 0px 30px;
+	background-color: #000;
 	border-top: 1px solid #252525;
 
 	width: 100%;
 	box-sizing: border-box;
+
+	-webkit-transition: opacity 500ms ease-out;
+    -moz-transition: opacity 500ms ease-out;
+    -o-transition: opacity 500ms ease-out;
+    transition: opacity 500ms ease-out;
 }
+#timelineWrap.open{
+	display: block;
+}
+#timelineWrap.fadeIn{
+	opacity:1;
+}
+
 #timeline{
-	width: 100%;
+	margin: 0 auto;
+	width: 500px;
 	height: 20px;
 	box-shadow: none;
 }
 #timeline .date{
-	margin-top: -40px;
-	height: 40px;
+	margin-top: -50px;
+	height: 50px;
 	text-align: center;
-	font-size: 24px;
+	font-size: 32px;
 	color: #FFF;
+	font-weight: bold;
 }
-
+#timeline .date .dash{
+	color: #777;
+	padding: 0 20px;
+}
 .noUi-handle{
 	box-shadow: none;
 }
 .noUi-horizontal .noUi-handle{
 	height: 20px;
 	top: -1px;
-	background-color: #FF8000;
+	background-color: #FF6200;
 	border-color: #DE6F00;
 }
 
@@ -187,7 +261,11 @@ div.navbar .container{
 .noUi-base{
 	background-color: #080808;
 }
-
+.noUi-origin.noUi-background{
+	background-color: #080808;
+	border: 1px solid #262626;
+	box-shadow: none;
+}
 
 /* main bar */
 .noUi-target{
@@ -208,7 +286,9 @@ div.navbar .container{
 	width: 80px;
 	text-align: center;
 	background-color: #fff;
-	color: #000;
+	color: #FF6200;
+	font-size: 14px;
+	font-weight: bold;
 
 	padding-top: 4px;
 	padding-bottom: 4px;
@@ -221,12 +301,27 @@ div.navbar .container{
 
 }
 .noUi-active .tooltip{
-	opacity: 1;
+	/* opacity: 1; */
 
 	-webkit-transition: opacity 200ms ease-out;
     -moz-transition: opacity 200ms ease-out;
     -o-transition: opacity 200ms ease-out;
     transition: opacity 200ms ease-out;
+}
+
+.tooltip:after {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(255, 255, 255, 0);
+	border-top-color: #fff;
+	border-width: 6px;
+	margin-left: -6px;
 }
 
 /* ============================================================
