@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
 	//----------------------------------------------------------------------------------------------------------------
 	var docHeight = $(document).height();
 	$('#loading').css('height', docHeight);
-	$('.kart-loader').css('margin-top', docHeight/2);
+	$('.loadlogo').css('margin-top', (docHeight/2)-110  );
 
 	//----------------------------------------------------------------------------------------------------------------
 	// FACET VIEW
