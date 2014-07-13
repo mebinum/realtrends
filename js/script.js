@@ -459,7 +459,7 @@ jQuery(document).ready(function($) {
 		function resetHighlight(e) {
 		    var layer = e.target;
 
-	    layer.setStyle({
+	    	layer.setStyle({
 		        weight: 1,
 		        color: 'gray',
 		        dashArray: '',
@@ -469,12 +469,8 @@ jQuery(document).ready(function($) {
 		}
 		
 		function zoomToFeature(e) {
-
-
 			console.log(e.target.feature.properties.poa_2006)
 		    map.fitBounds(e.target.getBounds());
-
-
 		}
 
 		var geojson;
@@ -492,9 +488,6 @@ jQuery(document).ready(function($) {
 		    onEachFeature: onEachFeature
 		}).addTo(map);
 		geojson = L.geoJson();
-
-
-
 
 		var legend = L.control({position: 'bottomright'});
 
