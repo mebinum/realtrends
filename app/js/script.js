@@ -24,10 +24,10 @@ jQuery(document).ready(function($) {
 
 	setTimeout(function(){
 		$('#welcomePanel').css('opacity','0');
-	},4000);
+	},9000);
 	setTimeout(function(){
 		$('#welcomePanel').css('display','none');
-	},5000);
+	},10000);
 
 	//----------------------------------------------------------------------------------------------------------------
 	// ANIMATE NAV BAR IN ON READY
