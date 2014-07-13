@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
 	}
 
 	function executeSearch() {
-		$("#loading").fadeIn(1000);
+		$("#loading").show();
 		$("#infoPanel").fadeOut(200);
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
