@@ -2,8 +2,8 @@
 var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
-var enableHeatMap = false;
-var enableMarkers = true;
+var enableHeatMap = true;
+var enableMarkers = false;
 var enableSuburbs = false;
 
 var heatmap;
@@ -159,7 +159,7 @@ jQuery(document).ready(function($) {
         	heatmap = L.heatLayer(addressPoints, heatmapoptions).addTo(map);
         } else {
         	heatmap.setLatLngs(addressPoints);
-        	heatmap.redraw();
+        	//heatmap.redraw();
         }
 	}
 
@@ -191,6 +191,18 @@ jQuery(document).ready(function($) {
 
 
 	var dateArrayStart = [
+		['Q1 2006','01/01/2006'],
+		['Q2 2006','01/04/2006'],
+		['Q3 2006','01/07/2006'],
+		['Q4 2006','01/10/2006'],
+		['Q1 2007','01/01/2007'],
+		['Q2 2007','01/04/2007'],
+		['Q3 2007','01/07/2007'],
+		['Q4 2007','01/10/2007'],
+		['Q1 2008','01/01/2008'],
+		['Q2 2008','01/04/2008'],
+		['Q3 2008','01/07/2008'],
+		['Q4 2008','01/10/2008'],
 		['Q1 2009','01/01/2009'],
 		['Q2 2009','01/04/2009'],
 		['Q3 2009','01/07/2009'],
@@ -216,6 +228,18 @@ jQuery(document).ready(function($) {
 	];
 
 	var dateArrayEnd = [
+		['Q1 2006','31/03/2006'],
+		['Q2 2006','30/06/2006'],
+		['Q3 2006','30/09/2006'],
+		['Q4 2006','31/12/2006'],
+		['Q1 2007','31/03/2007'],
+		['Q2 2007','30/06/2007'],
+		['Q3 2007','30/09/2007'],
+		['Q4 2007','31/12/2007'],
+		['Q1 2008','31/03/2008'],
+		['Q2 2008','30/06/2008'],
+		['Q3 2008','30/09/2008'],
+		['Q4 2008','31/12/2008'],
 		['Q1 2009','31/03/2009'],
 		['Q2 2009','30/06/2009'],
 		['Q3 2009','30/09/2009'],
@@ -282,7 +306,7 @@ jQuery(document).ready(function($) {
 
 
 	$timeline.noUiSlider({
-		start: [0, 21],
+		start: [0, dateArrayStart.length - 1],
 		step: 1,
 		margin: 0,
 		connect: true,
@@ -291,7 +315,7 @@ jQuery(document).ready(function($) {
 		behaviour: 'tap-drag',
 		range: {
 			'min': 0,
-			'max': 21
+			'max': dateArrayStart.length - 1
 		},
 		serialization: {
 			lower: [ toolTip ],
@@ -471,7 +495,7 @@ jQuery(document).ready(function($) {
 		        background: 'gray',
 		        color: 'gray',
 		        dashArray: '0',
-		        fillOpacity: 100
+		        fillOpacity: 0
 		    };
 		}
 
