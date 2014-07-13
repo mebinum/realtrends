@@ -4,7 +4,7 @@ var serverUrl = 'https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.b
 var searchIndex = 'elasticsearch';
 
 
-var enableHeatMap = true;
+var enableHeatMap = false;
 var enableMarkers = false;
 
 var heatmap;
@@ -15,8 +15,7 @@ var heatmapoptions = {
 		0.2: 'lime', 
 		0.3: 'red'
 	},
-	blur: 10,
-	opacity: 0.5
+	blur: 10
 }
 
 var markers = new Array();
@@ -85,12 +84,12 @@ jQuery(document).ready(function($) {
 	            if(geocode) {
 	              var lon = parseFloat(geocode[1]);
 	              var lat = parseFloat(geocode[0]);
-
 	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
 
+	              	var point = new Array(lon,lat);
+
 	              	if(enableHeatMap) {
-	              		var point = new Array(lon,lat)
 		              	addHeatMap(point);
 	              	}
 	              	  
@@ -98,6 +97,7 @@ jQuery(document).ready(function($) {
 	              		var mark = addMarker(point);
 		           	  	addPointToMarker(mark, value._source);
 	              	}
+
 	              }
 	              
 	            }	            
@@ -397,10 +397,9 @@ jQuery(document).ready(function($) {
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
-/*
-	var statesData = JSON.parse(localStorage.bounds);
 
-		L.geoJson(statesData).addTo(map);
+	var bounds = JSON.parse(localStorage.bounds);
+
 
 		function getColor(d) {
 		    return d > 1000 ? '#800026' :
@@ -429,23 +428,24 @@ jQuery(document).ready(function($) {
 		//adds interaction to the map
 		function style(feature) {
 		    return {
-		        fillColor: "#fff",//getColor(feature.properties.density),
+		        fillColor: getColor(feature.properties.density),
 		        weight: 1,
 		        opacity: 1,
+		        background: 'gray',
 		        color: 'gray',
 		        dashArray: '0',
-		        fillOpacity: 1
+		        fillOpacity: 100
 		    };
 		}
 
-		L.geoJson(statesData, {style: style}).addTo(map);
+		L.geoJson(bounds, {style: style}).addTo(map);
 
 		function highlightFeature(e) {
 		    var layer = e.target;
 
 		    layer.setStyle({
-		        weight: 5,
-		        color: '#666',
+		        weight: 1,
+		        color: '#ff6200',
 		        dashArray: '',
 		        fillOpacity: 0.7
 		    });
@@ -455,10 +455,28 @@ jQuery(document).ready(function($) {
 		    }
 		}
 
+
 		function resetHighlight(e) {
-		    geojson.resetStyle(e.target);
+		    var layer = e.target;
+
+	    layer.setStyle({
+		        weight: 1,
+		        color: 'gray',
+		        dashArray: '',
+		        fillOpacity: 0.7
+		    });
+
 		}
 		
+		function zoomToFeature(e) {
+
+
+			console.log(e.target.feature.properties.poa_2006)
+		    map.fitBounds(e.target.getBounds());
+
+
+		}
+
 		var geojson;
 		function onEachFeature(feature, layer) {
 		    layer.on({
@@ -469,16 +487,14 @@ jQuery(document).ready(function($) {
 		}
 
 		//adde event listeners
-		geojson = L.geoJson(statesData, {
+		geojson = L.geoJson(bounds, {
 		    style: style,
 		    onEachFeature: onEachFeature
 		}).addTo(map);
 		geojson = L.geoJson();
 
 
-		function zoomToFeature(e) {
-		    map.fitBounds(e.target.getBounds());
-		}
+
 
 		var legend = L.control({position: 'bottomright'});
 
@@ -499,5 +515,5 @@ jQuery(document).ready(function($) {
 		};
 
 		legend.addTo(map);
-	*/
+	
 });
