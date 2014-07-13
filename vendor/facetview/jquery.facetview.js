@@ -951,7 +951,7 @@ search box - the end user will not know they are happening.
 
 
             $.each(data.records, function(index, value) {
-                $('#facetview_results', obj).append("<tr><td></td><td>"+value.Site_street+"</td><td>"+value.Site_suburb+"</td><td>"+value.site_pcode+"</td><td>"+value.Permit_app_date+"</td></tr>");
+                $('#facetview_results', obj).append("<tr><td></td><td>"+value.Site_street+"</td><td>"+value.Site_suburb+"</td><td>"+value.site_pcode+"</td><td>"+value.Permit_app_date+"</td><td>"+value.postcode_geocode+"</td></tr>");
                 
 
                 //$('#facetview_results', obj).append( buildrecord(index) );
