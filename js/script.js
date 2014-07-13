@@ -4,6 +4,8 @@ var serverUrl = 'https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.b
 var searchIndex = 'elasticsearch';
 
 var heatmap;
+var markers = new Array();
+var addressPoints = new Array();
 
 jQuery(document).ready(function($) {
 
@@ -34,68 +36,109 @@ jQuery(document).ready(function($) {
 	    initialsearch: true,
 	    facets: [],
 	    paging: {
-	      size: 5000
+	      size: 20
 	    },
 	    on_results_returned: function(sdata) {
 
-	        var addressPoints = new Array();
+	    	removeAllMarkers();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
 
 	        $.each(sdata.hits.hits, function(index, value){
 
-	            var geocode = "";
-
-	            if(value && value._source && value._source.geo_point == undefined ) {
-	              var postcode = value._source.site_pcode;
-	              geocode = json[postcode];
-	            } else {
-	              geocode = value._source.geo_point;
-	            }
+	            var geocode = getGeocode(value);
 
 	            if(geocode) {
 	              var lon = parseFloat(geocode[1]);
 	              var lat = parseFloat(geocode[0]);
 
-	              //lots of undefined data in the database
+	              //lots of undefined data in the database so validate that lat and lon exists.
 	              if(lat && lon) {
-	              	var mark = new Array(lon,lat)
-	              	addressPoints.push(mark);
-	              	var marker = L.marker(mark).addTo(map);
+	              	  var point = new Array(lon,lat)
+		              addHeatMap(point);
 
-	              	var markerData = {
-	              		"suburb" : value._source.Site_suburb,
-	              		"municipality" : value._source.site_municipality,
-	              		"permitType" : value._source.Building_classification_1,
-	              		"estimatedCost" : value._source.est_cost_project,
-	              		"additionalDwellings" : "None"
-	              	}
-
-	              	if(value._source.dwellings_after_work > value._source.dwellings_before_work) {
-	              		markerData["additionalDwellings"] = value._source.dwellings_after_work - value._source.dwellings_before_work;
-	              	}
-
-	              	marker.on('click', function(){ populateContent(markerData);} )
+		           	  var mark = addMarker(point);
+		           	  addPointToMarker(mark, value._source);
 	              }
 	              
 	            }	            
 	        });
-
-	        if(!heatmap) {
-	        	heatmap = L.heatLayer(addressPoints, {
-		        	radius: 15,
-		        	gradient: {0.1: 'blue', 0.65: 'lime', 1: 'red'},
-		        	blur: 1
-		        }).addTo(map);
-	        } else {
-	        	heatmap.setLatLngs(addressPoints);
-	        	heatmap.redraw();
-	        }
 	    },
 	    searchwrap_start: '<table class="table table-striped table-bordered" id="facetview_results"><thead><tr><td></td><th>Site Street</th><th>Site Suburb</th><th>Site Postcode</th><th>Permit Approval Date</th></tr></thead><tbody>',
 	    searchwrap_end: '</tbody></table>'
 	});
+
+
+	function removeAllMarkers() {
+		for(var i = 0; i < markers.length; i++) {
+			map.removeLayer(markers[i]);
+		}
+	}
+
+	function addMarker(mark) {
+		var marker = L.marker(mark).addTo(map);
+      	markers.push(marker);
+      	return marker;
+	}
+
+	function addPointToMarker(marker, data) {
+		var markerData = {
+      		"suburb" : data.Site_suburb,
+      		"municipality" : data.site_municipality,
+      		"permitType" : data.Building_classification_1,
+      		"estimatedCost" : data.est_cost_project,
+      		"additionalDwellings" : "None"
+      	}
+
+      	if(data.dwellings_after_work > data.dwellings_before_work) {
+      		markerData["additionalDwellings"] = data.dwellings_after_work - data.dwellings_before_work;
+      	}
+
+      	marker.on('click', function(){ populateContent(markerData);} )
+	}
+
+	$("#infoPanel").hide();
+
+	function populateContent(json) {
+		$("#infoPanel").fadeOut(200, function() {
+			$("#suburb").html(json["suburb"]);
+			$(".municipality .value:first").html(json["municipality"]);
+			$(".type .value:first").html(json["permitType"]);
+			$(".average-cost .value:first").html("$"+json["estimatedCost"]);
+			$(".additional-dwellings .value:first").html(json["additionalDwellings"]);
+		});
+
+		$("#infoPanel").fadeIn(200);
+	}
+
+	function addHeatMap(point) {
+		addressPoints.push(point);
+
+		if(!heatmap) {
+        	heatmap = L.heatLayer(addressPoints, {
+	        	radius: 15,
+	        	gradient: {0.1: 'blue', 0.65: 'lime', 1: 'red'},
+	        	blur: 1
+	        }).addTo(map);
+        } else {
+        	heatmap.setLatLngs(addressPoints);
+        	heatmap.redraw();
+        }
+	}
+
+	function getGeocode(value) {
+		var geocode;
+
+		if(value && value._source && value._source.geo_point == undefined ) {
+          var postcode = value._source.site_pcode;
+          geocode = json[postcode];
+        } else {
+          geocode = value._source.geo_point;
+        }
+
+        return geocode;
+	}
 
 	//hide buttongruop
 	$('.facetview_search_options_container .btn-group:eq(0)').css('display','none');
@@ -245,24 +288,6 @@ jQuery(document).ready(function($) {
 	    attribution: '',
 	    id: 'examples.map-20v6611k'
 	}).addTo(map);
-
-	$("#infoPanel").hide();
-
-	function populateContent(json) {
-		$("#infoPanel").fadeOut(200, function() {
-			$("#suburb").html(json["suburb"]);
-			$(".municipality .value:first").html(json["municipality"]);
-			$(".type .value:first").html(json["permitType"]);
-			$(".average-cost .value:first").html("$"+json["estimatedCost"]);
-			$(".additional-dwellings .value:first").html(json["additionalDwellings"]);
-		});
-
-		$("#infoPanel").fadeIn(200);
-
-		
-
-	}
-
 
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
