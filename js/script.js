@@ -477,6 +477,7 @@ jQuery(document).ready(function($) {
 	                      '#FFEDA0';
 	}
 
+
 	//adds interaction to the map
 	function style(feature) {
 	    return {
@@ -562,10 +563,11 @@ jQuery(document).ready(function($) {
 
 		geojson = L.geoJson();
 
-		
-		
+	}
+
+	function boundThisSuburb(postcode){
+
+
 
 	}
-	
-
 });
