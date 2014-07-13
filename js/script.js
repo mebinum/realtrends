@@ -303,15 +303,14 @@ jQuery(document).ready(function($) {
 
 	}
 
-/*
+
 	//----------------------------------------------------------------------------------------------------------------
 	//LEAFLET ADD BOUNDARIES
 	//----------------------------------------------------------------------------------------------------------------
+/*
+	var statesData = JSON.parse(localStorage.bounds);
 
-	var bounds = JSON.parse(localStorage.bounds);
-
-		L.geoJson(bounds).addTo(map);
-
+		L.geoJson(statesData).addTo(map);
 
 		function getColor(d) {
 		    return d > 1000 ? '#800026' :
@@ -326,26 +325,37 @@ jQuery(document).ready(function($) {
 
 		//need a function to search the amount of permits per postcode
 
+		function getColor(d) {
+		    return d > 1000 ? '#800026' :
+		           d > 500  ? '#BD0026' :
+		           d > 200  ? '#E31A1C' :
+		           d > 100  ? '#FC4E2A' :
+		           d > 50   ? '#FD8D3C' :
+		           d > 20   ? '#FEB24C' :
+		           d > 10   ? '#FED976' :
+		                      '#FFEDA0';
+		}
+
+		//adds interaction to the map
 		function style(feature) {
 		    return {
-		        fillColor: "#eee", //getColor(d) change this to the amount of permits per zone.
-		        weight: .7,
+		        fillColor: "#fff",//getColor(feature.properties.density),
+		        weight: 1,
 		        opacity: 1,
 		        color: 'gray',
 		        dashArray: '0',
-		        fillOpacity: 0.7
+		        fillOpacity: 1
 		    };
 		}
 
+		L.geoJson(statesData, {style: style}).addTo(map);
 
-
-		//adds interaction to the map
 		function highlightFeature(e) {
 		    var layer = e.target;
 
 		    layer.setStyle({
-		        weight: .7,
-		        color: '#ff6200',
+		        weight: 5,
+		        color: '#666',
 		        dashArray: '',
 		        fillOpacity: 0.7
 		    });
@@ -355,20 +365,11 @@ jQuery(document).ready(function($) {
 		    }
 		}
 
-		//on mouseout even rest layers
 		function resetHighlight(e) {
 		    geojson.resetStyle(e.target);
 		}
-
-		//zoom to feature
-		function zoomToFeature(e) {
-		    map.fitBounds(e.target.getBounds());
 		
-		    //will need to update to query the area via post code.
-
-		}
-
-
+		var geojson;
 		function onEachFeature(feature, layer) {
 		    layer.on({
 		        mouseover: highlightFeature,
@@ -376,25 +377,18 @@ jQuery(document).ready(function($) {
 		        click: zoomToFeature
 		    });
 		}
-		//add event listeners
-		L.geoJson(bounds, {style: style}).addTo(map);
 
-		geojson = L.geoJson(bounds, {
+		//adde event listeners
+		geojson = L.geoJson(statesData, {
 		    style: style,
 		    onEachFeature: onEachFeature
 		}).addTo(map);
+		geojson = L.geoJson();
 
 
-		function highlightFeature(e) {
-		 //   ...
-		    info.update(layer.feature.properties);
+		function zoomToFeature(e) {
+		    map.fitBounds(e.target.getBounds());
 		}
-
-		function resetHighlight(e) {
-		 //   ...
-		    info.update();
-		}
-
 
 		var legend = L.control({position: 'bottomright'});
 
@@ -415,6 +409,5 @@ jQuery(document).ready(function($) {
 		};
 
 		legend.addTo(map);
-
-*/
+	*/
 });
