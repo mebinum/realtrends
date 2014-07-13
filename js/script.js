@@ -70,8 +70,8 @@ jQuery(document).ready(function($) {
 	    },
 	    on_results_returned: function(sdata) {
 
-	    	//removeAllMarkers();
-	    	//removeAllHeatMaps();
+	    	removeAllMarkers();
+	    	removeAllHeatMaps();
 
 	        //Once the search is performed, loop through the result and find the relevant geocodes.
 	        //If there aren't any, then look up the postcode information from /indexer/postcodes.json
