@@ -22,6 +22,13 @@ var addressPoints = new Array();
 
 jQuery(document).ready(function($) {
 
+	setTimeout(function(){
+		$('#welcomePanel').css('opacity','0');
+	},9000);
+	setTimeout(function(){
+		$('#welcomePanel').css('display','none');
+	},10000);
+
 	//----------------------------------------------------------------------------------------------------------------
 	// ANIMATE NAV BAR IN ON READY
 	//----------------------------------------------------------------------------------------------------------------
@@ -415,7 +422,7 @@ jQuery(document).ready(function($) {
 	}
 
 	function executeSearch() {
-		$("#loading").fadeIn(1000);
+		$("#loading").show();
 		$("#infoPanel").fadeOut(200);
 		$('#facet_search').keydown();
 	    $('#facet_search').keypress();
