@@ -1,0 +1,10 @@
+README
+fig.yml
+docker-compose.yml
+.git/
+logs/
+tmp/
+node_modules/
+.DS_Store
+Dockerfile
+.dockerignore
