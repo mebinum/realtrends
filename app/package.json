@@ -4,6 +4,7 @@
   "description": "Showing real estate building trends based on suburb",
   "main": "index.html",
   "scripts": {
+    "start": "node ./bin/http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

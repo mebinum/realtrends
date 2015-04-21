@@ -98,7 +98,7 @@
         },
         "Permit_app_date": {
             "type":"date",
-            "format": "dd/mm/yyy"
+            "format": "dd/MM/yyyy"
         },
         "BACV_applicable_flag": {
             "type": "string"

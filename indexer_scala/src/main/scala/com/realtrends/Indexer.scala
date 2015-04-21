@@ -137,7 +137,6 @@ object Indexer {
             JsArray(List(JsNumber(x(0)._1),JsNumber(x(0)._2)))
           }
         }
-        case Nil => JsNull
         case _ => JsNull
       }
     }

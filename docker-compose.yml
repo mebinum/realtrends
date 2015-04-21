@@ -1,0 +1,16 @@
+web:
+  # image: seeddigital/realtrendz_web
+  build: .
+  # command: "node app"
+  ports:
+    - "3000:8080"
+  links:
+    - essearch:essearch
+  volumes:
+    - "./app:/app"
+essearch:
+  image: elasticsearch:1.5.0
+  ports:
+    - "9200:9200"
+  volumes:
+   - "esdata:/usr/share/elasticsearch/data"
