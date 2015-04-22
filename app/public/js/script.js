@@ -1,5 +1,5 @@
 //GLOBALS
-var serverUrl = 'https://j2uwpaid31:hpw6yydziz@realtrends-jordan-lo-8230931152.eu-west-1.bonsai.io/building_data/_search?';
+var serverUrl = 'http://192.168.59.103:9200/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
 var enableHeatMap = true;

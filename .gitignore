@@ -88,5 +88,5 @@ local.properties
 *.csv
 
 #Ignore esdata folder
-
 esdatas/
+log/

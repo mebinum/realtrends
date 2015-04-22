@@ -6,6 +6,15 @@ var router = express.Router();
 var serveStatic = function (app) {
 	app.use(express.static(path.join('public')));
 
+	// app.use('/js/script.js',function(req, res){
+	// 	fs.readFileSync(__dirname + '/public' + file, 'utf8');
+	// 	var REALTRENDZ_ES_SERVER = process.env.REALTRENDZ_ES_SERVER;
+	// 	var REALTRENDZ_ES_INDEX = process.env.REALTRENDZ_ES_INDEX;
+	// 	var REALTRENDZ_ES_MAPPING = process.env.REALTRENDZ_ES_MAPPING;
+
+	// 	var serverUrlString = 'var serverUrl = \''+ REALTRENDZ_ES_SERVER + '/' + REALTRENDZ_ES_INDEX+'/_search?\'';
+	// 	serverUrlString +='\nvar searchIndex = \''+ REALTRENDZ_ES_MAPPING + '\';';
+	// });
 	// catch 404 and forward to error handler
     app.use('*', function (req, res) {
         res.sendFile('public/index.html', {
