@@ -9,7 +9,7 @@ It expects to get the details for the server via an Environment variables called
 To start the application pass the variable via the command line or set it in the environment variables of the machine running the application
 
 i.e
-    ES_SERVER_URL=https://cydupqgzpx:p19ndm9l1a@realtrends-9107882958.eu-west-1.bonsai.io DEBUG=app npm start
+            ES_SERVER_URL=10.0.0.0 DEBUG=app npm start
 
 ## With Docker
 
