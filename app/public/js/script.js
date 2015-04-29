@@ -1,5 +1,5 @@
 //GLOBALS
-var serverUrl = 'http://192.168.59.103:9200/building_data/_search?';
+var serverUrl = 'http://realtrends_es:9200/building_data/_search?';
 var searchIndex = 'elasticsearch';
 
 var enableHeatMap = true;

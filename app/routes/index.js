@@ -1,36 +1,36 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require('path');
 
 /* Setup to serve static files */
 
-var serveStatic = function (app) {
-	app.use(express.static(path.join('public')));
-
-	// app.use('/js/script.js',function(req, res){
-	// 	fs.readFileSync(__dirname + '/public' + file, 'utf8');
-	// 	var REALTRENDZ_ES_SERVER = process.env.REALTRENDZ_ES_SERVER;
-	// 	var REALTRENDZ_ES_INDEX = process.env.REALTRENDZ_ES_INDEX;
-	// 	var REALTRENDZ_ES_MAPPING = process.env.REALTRENDZ_ES_MAPPING;
-
-	// 	var serverUrlString = 'var serverUrl = \''+ REALTRENDZ_ES_SERVER + '/' + REALTRENDZ_ES_INDEX+'/_search?\'';
-	// 	serverUrlString +='\nvar searchIndex = \''+ REALTRENDZ_ES_MAPPING + '\';';
-	// });
-	// catch 404 and forward to error handler
-    app.use('*', function (req, res) {
-        res.sendFile('public/index.html', {
-            root: '.'
-        });
-    });
-
-    app.use(function(req, res, next) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-    });
-};
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// router.get('/', function(req, res, next) {
+//   res.render('index', { title: 'Express' });
+// });
+
+//app.use(express.static(path.join('public')));
+
+
+
+
+// router.use('/js', express.static(path.join(__dirname, 'public/js')));
+// router.use('/vendor', express.static(path.join(__dirname, 'public/vendor')));
+
+
+
+//catch 404 and forward to error handler
+router.use('*', function (req, res) {
+    res.sendFile('public/index.html', {
+        root: '.'
+    });
 });
 
-module.exports = serveStatic;
+router.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+module.exports = router;

@@ -90,3 +90,6 @@ local.properties
 #Ignore esdata folder
 esdatas/
 log/
+
+#ignore nodemon
+.nodemon-find-ref
