@@ -14,7 +14,7 @@ APP_IMAGE_NAME=docker-registry.seeddigital.co/realtrends_web
 NGINX_PROXY=realtrends_proxy
 ES_IMAGE_NAME=docker-registry.seeddigital.co/realtrends_elasticsearch
 ES_CONAINTER_NAME=realtrends_es
-DEFAULT_DOMAINS=*.realtrends.co
+DEFAULT_DOMAINS=realtrends.co
 HOST_DOMAIN=$([ -z "$1" ] && echo $DEFAULT_DOMAINS || echo $DEFAULT_DOMAINS","$1)
 ES_DATA_PATH_DEFAULT=$(pwd)"/esdatas"
 ES_DATA_PATH=${2:-$ES_DATA_PATH_DEFAULT}
@@ -32,7 +32,7 @@ is_container_running () {
 run_container() {
   NAME=$1
   PORT=$(es_port)
-  docker run -d -e VIRTUAL_HOST=$HOST_DOMAIN -e VIRTUAL_PORT=3000  -e "ES_SERVER_URL=realtrends.co:${PORT}" --name $NAME -P -v /data/logs:/data/logs -d $APP_IMAGE_NAME
+  docker run -d -e VIRTUAL_HOST=$HOST_DOMAIN -e VIRTUAL_PORT=3000  -e "ES_SERVER_URL=elastic.realtrends.co" --name $NAME -P -v /data/logs:/data/logs -d $APP_IMAGE_NAME
 }
 
 
@@ -49,20 +49,20 @@ fi
 if [ $(is_container_running ${ES_CONAINTER_NAME}) -eq 0 ]; then
     echo "Staring elastic search container ${ES_CONAINTER_NAME} with image ${ES_IMAGE_NAME}"
     docker rm ${ES_CONAINTER_NAME}
-    docker run -d -v ${ES_DATA_PATH}:/usr/share/elasticsearch/data -e VIRTUAL_HOST=$HOST_DOMAIN VIRTUAL_PORT=9200 -P --name ${ES_CONAINTER_NAME} ${ES_IMAGE_NAME}
+    docker run -d -v ${ES_DATA_PATH}:/usr/share/elasticsearch/data -e VIRTUAL_HOST=elastic.realtrends.co -e VIRTUAL_PORT=9200 -P --name ${ES_CONAINTER_NAME} ${ES_IMAGE_NAME}
 fi
 
 # Check if green instance is running
-if [ $(is_container_running ${APP_GREEN}) -eq 0 ]; then  
+if [ $(is_container_running ${APP_GREEN}) -eq 0 ]; then
   echo "Currently active node is ${APP_BLUE}, deploying ${APP_GREEN}"
   docker rm ${APP_GREEN}
   run_container ${APP_GREEN}
   sleep 20
   docker stop ${APP_BLUE}
-else  
+else
   echo "Currently active node is ${APP_GREEN}, deploying ${APP_BLUE}"
   docker rm ${APP_BLUE}
   run_container ${APP_BLUE}
   sleep 20
   docker stop ${APP_GREEN}
-fi  
+fi
