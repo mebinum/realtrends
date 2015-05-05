@@ -49,7 +49,7 @@ fi
 if [ $(is_container_running ${ES_CONAINTER_NAME}) -eq 0 ]; then
     echo "Staring elastic search container ${ES_CONAINTER_NAME} with image ${ES_IMAGE_NAME}"
     docker rm ${ES_CONAINTER_NAME}
-    docker run -d -v ${ES_DATA_PATH}:/usr/share/elasticsearch/data -P --name ${ES_CONAINTER_NAME} ${ES_IMAGE_NAME}
+    docker run -d -v ${ES_DATA_PATH}:/usr/share/elasticsearch/data -e VIRTUAL_HOST=$HOST_DOMAIN VIRTUAL_PORT=9200 -P --name ${ES_CONAINTER_NAME} ${ES_IMAGE_NAME}
 fi
 
 # Check if green instance is running
