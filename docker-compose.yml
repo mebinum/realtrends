@@ -5,12 +5,14 @@ web:
   ports:
     - "3000:8080"
   links:
-    - essearch:essearch
+    - realtrends_es:realtrends_es
   volumes:
     - "./app:/app"
-essearch:
-  image: elasticsearch:1.5.0
+  environment:
+    - 
+realtrends_es:
+  build: devops/elasicsearch/
   ports:
     - "9200:9200"
   volumes:
-   - "esdata:/usr/share/elasticsearch/data"
+   - "esdatas:/usr/share/elasticsearch/data"
